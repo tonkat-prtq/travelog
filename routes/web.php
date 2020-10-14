@@ -3,6 +3,6 @@
 Auth::routes();
 
 // rootページにアクセスがあったら、ArticleControllerのIndexアクションの処理が走る
-Route::get('/', 'ArticleController@index');
+Route::get('/', 'ArticleController@index')->name('articles.index');
 
-Route::resource('/articles', 'ArticleController');
+Route::resource('/articles', 'ArticleController')->execpt(['index']);
