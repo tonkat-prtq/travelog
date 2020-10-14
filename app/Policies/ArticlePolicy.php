@@ -20,7 +20,7 @@ class ArticlePolicy
     // コントローラのindexと対応
     public function viewAny(User $user)
     {
-        //
+        return true;
     }
 
     /**
@@ -34,7 +34,7 @@ class ArticlePolicy
     // コントローラのshowと対応
     public function view(User $user, Article $article)
     {
-        //
+        return true;
     }
 
     /**
@@ -47,7 +47,7 @@ class ArticlePolicy
     // コントローラのcreate, storeと対応
     public function create(User $user)
     {
-        //
+        return true;
     }
 
     /**
@@ -61,7 +61,7 @@ class ArticlePolicy
     // コントローラのedit, updateと対応
     public function update(User $user, Article $article)
     {
-        //
+        return $user->id === $article->user_id;
     }
 
     /**
@@ -75,7 +75,7 @@ class ArticlePolicy
     // コントローラのdestroyと対応
     public function delete(User $user, Article $article)
     {
-        //
+        return $user->id === $article->user_id;
     }
 
     /**
