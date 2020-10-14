@@ -10,6 +10,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Article extends Model
 {
+    protected $fillable = [
+        'title',
+        'content',
+        'start_date',
+        'end_date',
+    ];
+
     // BelongsToという型で返ってくる宣言(それ以外だとTypeError発生)
     public function user(): BelongsTo 
     {
