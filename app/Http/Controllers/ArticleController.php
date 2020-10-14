@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Article;
+
+// フォームリクエストの使用
+use App\Http\Requests\ArticleRequest;
+
 use Illuminate\Http\Request;
 
 class ArticleController extends Controller
@@ -18,4 +22,5 @@ class ArticleController extends Controller
     {
         return view('articles.create');
     }
+
 }
