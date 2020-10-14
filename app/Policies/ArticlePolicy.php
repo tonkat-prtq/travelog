@@ -18,7 +18,7 @@ class ArticlePolicy
      */
 
     // コントローラのindexと対応
-    public function viewAny(User $user)
+    public function viewAny(?User $user)
     {
         return true;
     }
@@ -32,7 +32,7 @@ class ArticlePolicy
      */
 
     // コントローラのshowと対応
-    public function view(User $user, Article $article)
+    public function view(?User $user, Article $article)
     {
         return true;
     }
