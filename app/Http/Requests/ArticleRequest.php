@@ -28,6 +28,8 @@ class ArticleRequest extends FormRequest
         return [
             'title' => 'required|max:50',
             'content' => 'required|max:10000',
+            'start_date' => 'required|before_or_equal:end_date',
+            'end_date' => 'required|after_or_equal:start_date',
         ];
     }
 
