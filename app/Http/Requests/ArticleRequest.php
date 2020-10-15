@@ -26,9 +26,10 @@ class ArticleRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|max:50',
-            'content' => 'required|max:10000',
-            'start_date' => 'required|before_or_equal:end_date',
+            'title' => 'required|string|max:50',
+            'content' => 'required|string|max:10000',
+            // 下、バリデーションかけるのはどちらか片方で良い
+            'start_date' => 'required|date',
             'end_date' => 'required|after_or_equal:start_date',
         ];
     }
@@ -41,6 +42,15 @@ class ArticleRequest extends FormRequest
             'content' => '本文',
             'start_date' => '開始日',
             'end_date' => '終了日',
+        ];
+    }
+
+    // エラーメッセージのカスタマイズ
+    public function messages()
+    {
+        return [
+            // attribute名 . 引っかかったバリデーションルール => 出したいメッセージ
+            'end_date.after_or_equal' => '開始日または終了日を確認してください',
         ];
     }
 }
