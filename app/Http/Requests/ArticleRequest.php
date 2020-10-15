@@ -31,6 +31,9 @@ class ArticleRequest extends FormRequest
             // 下、バリデーションかけるのはどちらか片方で良い
             'start_date' => 'required|date',
             'end_date' => 'required|after_or_equal:start_date',
+
+            // 画像ファイル
+            'files.*.photo' => 'image|mimes:jpeg,bmp,png', # 追記
         ];
     }
 
