@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Article;
+use App\Photo;
 
 // フォームリクエストの使用
 use App\Http\Requests\ArticleRequest;
@@ -34,9 +35,22 @@ class ArticleController extends Controller
     {
         $article->fill($request->all());
 
+        // dd($request, $request->file('files'));
         // 注意:ここの$request->user()はリレーションメソッドの呼び出しではなく、Requestクラスのインスタンス(ここでは$request)が持っているメソッドで、認証済みユーザーのインスタンスを返している
         $article->user_id = $request->user()->id;
+
         $article->save();
+        
+        // 画像アップロード
+        foreach ($request->file('files') as $index=>$e) {
+            $storage_key = $e['photo']->store('uploads', 'public');
+            $filename = $e['photo']->getClientOriginalName();
+            $article->photos()->create([
+                'name' => $filename,
+                'storage_key' => $storage_key
+                ]);
+        }
+
         return redirect()->route('articles.index');
     }
 
