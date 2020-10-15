@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 // この記述がなくても、下のuser()メソッド内でのbelongsToで関連付けはできる
 // ただし、戻り値の型宣言をするのに必要(PHP7の機能)
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Article extends Model
 {
@@ -22,6 +23,11 @@ class Article extends Model
     {
         // $thisはArticleクラスのインスタンス自身
         return $this->belongsTo('App\User'); 
+    }
+
+    public function photos(): HasMany
+    {
+        return $this->hasMany('App\Photo');
     }
 
 }
