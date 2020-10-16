@@ -68,7 +68,13 @@
     {{-- 画像表示専用のビューを作って呼び出している --}}
     @include('articles.photos')
     <div class="card-text">
-      {{ $article->content }}
+      {!! nl2br(e( $article->content ))  !!}
+    </div>
+    <div class="card-body pt-0 pb-2 pl-3">
+      <div class="card-text">
+        <article-like>
+        </article-like>
+      </div>
     </div>
   </div>
 </div>
