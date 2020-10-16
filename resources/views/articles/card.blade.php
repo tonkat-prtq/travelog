@@ -65,6 +65,8 @@
     <h4 class="h5">
       終了日:{{ $article->end_date }}
     </h4>
+    {{-- 画像表示専用のビューを作って呼び出している --}}
+    @include('articles.photos')
     <div class="card-text">
       {{ $article->content }}
     </div>
