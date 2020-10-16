@@ -46,7 +46,7 @@ class Article extends Model
             whereメソッドの第一引数にキー名、第二引数に値を渡すと、その条件に一致するコレクションが返る
             この記事に紐付いたUserモデル（いいねしたユーザー）の中に、引数として渡された$userがいるかどうかを調べている
             */
-            ? (bool)$this->likes>where('id', $user->id)->count()
+            ? (bool)$this->likes->where('id', $user->id)->count()
             : false;
     }
 }
