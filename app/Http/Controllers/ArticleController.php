@@ -72,8 +72,7 @@ class ArticleController extends Controller
         return view('articles.edit', [
             'article' => $article,
             'tagNames' => $tagNames,
-            ]);
-
+        ]);
     }
 
     public function update(ArticleRequest $request, Article $article)
