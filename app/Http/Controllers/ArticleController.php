@@ -53,6 +53,8 @@ class ArticleController extends Controller
         }
 
         // タグの追加
+        // $requestからタグの情報を一つずつ取り出す
+        // 無名関数の中で$articleを使うため、use ($article)とする
         $request->tags->each(function ($tagName) use ($article) {
             $tag = Tag::firstOrCreate(['name' => $tagName]);
             $article->tags()->attach($tag);
