@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Article;
 use App\Photo;
+use App\Tag;
 
 // フォームリクエストの使用
 use App\Http\Requests\ArticleRequest;
-
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class ArticleController extends Controller
@@ -50,6 +51,12 @@ class ArticleController extends Controller
                 'storage_key' => $storage_key
                 ]);
         }
+
+        // タグの追加
+        $request->tags->each(function ($tagName) use ($article) {
+            $tag = Tag::firstOrCreate(['name' => $tagName]);
+            $article->tags()->attach($tag);
+        });
 
         return redirect()->route('articles.index');
     }
