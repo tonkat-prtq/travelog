@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Article;
 use App\Photo;
+use App\Tag;
 
 // フォームリクエストの使用
 use App\Http\Requests\ArticleRequest;
-
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class ArticleController extends Controller
@@ -26,7 +27,13 @@ class ArticleController extends Controller
 
     public function create()
     {
-        return view('articles.create');
+        $allTagNames = Tag::all()->map(function ($tag) {
+            return ['text' => $tag->name];
+        });
+
+        return view('articles.create', [
+            'allTagNames' => $allTagNames,
+        ]);
     }
 
     // $request, $articleの前のArticleRequestやArticleは引数の型宣言
@@ -51,12 +58,32 @@ class ArticleController extends Controller
                 ]);
         }
 
+        // タグの追加
+        // $requestからタグの情報を一つずつ取り出す
+        // 無名関数の中で$articleを使うため、use ($article)とする
+        $request->tags->each(function ($tagName) use ($article) {
+            $tag = Tag::firstOrCreate(['name' => $tagName]);
+            $article->tags()->attach($tag);
+        });
+
         return redirect()->route('articles.index');
     }
 
     public function edit(Article $article)
     {
-        return view('articles.edit', ['article' => $article]);
+        $tagNames = $article->tags->map(function ($tag) {
+            return ['text' => $tag->name];
+        });
+
+        $allTagNames = Tag::all()->map(function ($tag) {
+            return ['text' => $tag->name];
+        });
+
+        return view('articles.edit', [
+            'article' => $article,
+            'tagNames' => $tagNames,
+            'allTagNames' => $allTagNames,
+        ]);
     }
 
     public function update(ArticleRequest $request, Article $article)
