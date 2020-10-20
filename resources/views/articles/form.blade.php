@@ -24,6 +24,10 @@
 </div>
 <div class="form-file">
     <label for="photo">画像ファイル（複数可）:</label>
+      @if ($article)
+        <?php dd($photos) ?>
+        <input type="hidden" name="files[][photo]" value="$photos">
+      @endif
     <input type="file" class="form-control" name="files[][photo]" multiple>
 </div>
 <div class="form-group">
