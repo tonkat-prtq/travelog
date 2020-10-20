@@ -79,10 +79,13 @@ class ArticleController extends Controller
             return ['text' => $tag->name];
         });
 
+        $articlePhotos = $article->photos;
+
         return view('articles.edit', [
             'article' => $article,
             'tagNames' => $tagNames,
             'allTagNames' => $allTagNames,
+            'photos' => $articlePhotos
         ]);
     }
 
