@@ -35,6 +35,8 @@ class ArticleRequest extends FormRequest
             // 画像ファイル
             'files.*.photo' => 'image|mimes:jpeg,bmp,png', # 追記
 
+            'stored_photo_ids',
+
             // タグ
             'tags' => 'json|regex:/^(?!.*\s).+$/u|regex:/^(?!.*\/).*$/u',
         ];
