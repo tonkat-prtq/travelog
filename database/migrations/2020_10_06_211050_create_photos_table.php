@@ -18,7 +18,10 @@ class CreatePhotosTable extends Migration
             $table->string('name');
             $table->string('storage_key');
             $table->bigInteger('article_id');
-            $table->foreign('article_id')->references('id')->on('articles');
+            $table->foreign('article_id')
+                ->references('id')
+                ->on('articles')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }

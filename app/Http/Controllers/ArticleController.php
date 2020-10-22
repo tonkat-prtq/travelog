@@ -49,13 +49,15 @@ class ArticleController extends Controller
         $article->save();
         
         // 画像アップロード
-        foreach ($request->file('files') as $index=>$e) {
-            $storage_key = $e['photo']->store('uploads', 'public');
-            $filename = $e['photo']->getClientOriginalName();
-            $article->photos()->create([
-                'name' => $filename,
-                'storage_key' => $storage_key
-                ]);
+        if ($request->file('files')) {
+            foreach ($request->file('files') as $index=>$e) {
+                $storage_key = $e['photo']->store('uploads', 'public');
+                $filename = $e['photo']->getClientOriginalName();
+                $article->photos()->create([
+                    'name' => $filename,
+                    'storage_key' => $storage_key
+                    ]);
+            }
         }
 
         // タグの追加
@@ -79,15 +81,54 @@ class ArticleController extends Controller
             return ['text' => $tag->name];
         });
 
+        $articlePhotos = $article->photos;
+
         return view('articles.edit', [
             'article' => $article,
             'tagNames' => $tagNames,
             'allTagNames' => $allTagNames,
+            'photos' => $articlePhotos
         ]);
     }
 
     public function update(ArticleRequest $request, Article $article)
     {
+        // 変数$stored_photosに、formのhidden_fieldに持たせてたstored_photo_idsを格納
+        // もともと記事に紐付いていた画像で、削除をしないもののidが配列で入っている
+        $stored_photos = $request->stored_photo_ids;
+
+
+        // 記事に紐付いていた画像があり、それをすべて削除した場合、$stored_photoには何も入らない。その時の処理を先にする
+        // もし$stored_photosが空、かつ、元々の記事に紐付いていた画像があったなら
+        if (empty($stored_photos) && $article->photos) {
+            // 編集中の記事に紐付いた画像をすべて削除する(deleteとすることで複数削除)
+            Photo::where('article_id', $article->id)->delete();
+        }
+        else {
+            // もともと記事に紐付いていた複数の画像を取り出して変数$photoに格納
+            foreach ($article->photos as $photo) {
+                // in_arrayで、取り出した画像が削除されているかどうかを判断する
+                $photo_delete_judge = in_array($photo->id, $stored_photos);
+                // もし上の結果が偽ならば、それは削除されているので
+                if (!$photo_delete_judge) {
+                    // そのidの画像を削除する
+                    Photo::destroy($photo->id);
+                }
+            }
+        }
+
+        if ($request->file('files')) {
+            foreach ($request->file('files') as $index=>$e) {
+                $storage_key = $e['photo']->store('uploads', 'public');
+                $filename = $e['photo']->getClientOriginalName();
+                $article->photos()->create([
+                    'name' => $filename,
+                    'storage_key' => $storage_key
+                    ]);
+            }
+        }
+
+        
         $article->fill($request->all())->save();
         return redirect()->route('articles.index');
     }
@@ -104,7 +145,7 @@ class ArticleController extends Controller
     }
 
     public function like(Request $request, Article $article)
-    {
+    { 
         $article->likes()->detach($request->user()->id);
         $article->likes()->attach($request->user()->id);
 
