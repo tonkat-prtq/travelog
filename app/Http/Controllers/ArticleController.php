@@ -49,13 +49,15 @@ class ArticleController extends Controller
         $article->save();
         
         // 画像アップロード
-        foreach ($request->file('files') as $index=>$e) {
-            $storage_key = $e['photo']->store('uploads', 'public');
-            $filename = $e['photo']->getClientOriginalName();
-            $article->photos()->create([
-                'name' => $filename,
-                'storage_key' => $storage_key
-                ]);
+        if ($request->file('files')) {
+            foreach ($request->file('files') as $index=>$e) {
+                $storage_key = $e['photo']->store('uploads', 'public');
+                $filename = $e['photo']->getClientOriginalName();
+                $article->photos()->create([
+                    'name' => $filename,
+                    'storage_key' => $storage_key
+                    ]);
+            }
         }
 
         // タグの追加
@@ -91,6 +93,32 @@ class ArticleController extends Controller
 
     public function update(ArticleRequest $request, Article $article)
     {
+        $stored_photos = $request->stored_photo_ids;
+
+        if (empty($stored_photos) && $article->photos) {
+            Photo::where('article_id', $article->id)->delete();
+        }
+        else {
+            foreach ($article->photos as $photo) {
+                $photo_delete_judge = in_array($photo->id, $stored_photos);
+                if (!$photo_delete_judge) {
+                    Photo::destroy($photo->id);
+                }
+            }
+        }
+
+        if ($request->file('files')) {
+            foreach ($request->file('files') as $index=>$e) {
+                $storage_key = $e['photo']->store('uploads', 'public');
+                $filename = $e['photo']->getClientOriginalName();
+                $article->photos()->create([
+                    'name' => $filename,
+                    'storage_key' => $storage_key
+                    ]);
+            }
+        }
+
+        
         $article->fill($request->all())->save();
         return redirect()->route('articles.index');
     }
@@ -107,7 +135,7 @@ class ArticleController extends Controller
     }
 
     public function like(Request $request, Article $article)
-    {
+    { 
         $article->likes()->detach($request->user()->id);
         $article->likes()->attach($request->user()->id);
 
