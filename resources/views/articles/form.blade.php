@@ -26,6 +26,9 @@
     <label for="photo">画像ファイル（複数可）:</label>
     <input type="file" class="form-control" name="files[][photo]" multiple>
 </div>
+@if (!empty($article) && $article->photos)
+  @include('articles.photos_edit')
+@endif
 <div class="form-group">
   <label></label>
   <textarea name="content" required class="form-control" rows="16" placeholder="本文">{{ $article->content ?? old('content') }}</textarea>
