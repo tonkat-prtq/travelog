@@ -14,8 +14,11 @@ class UserController extends Controller
         // Userのnameカラムが、$nameと一致するユーザーを取ってくる
         $user = User::where('name', $name)->first();
 
+        $articles = $user->articles->sortByDesc('created_at');
+
         return view('users.show', [
             'user' => $user,
+            'articles' => $articles,
         ]);
     }
 
