@@ -65,4 +65,15 @@ class User extends Authenticatable
                 ->followers->where('id', $user->id)->count()
             : false;
     }
+
+    public function getCountFollowersAttribute(): int
+    {
+        // $this->followersで、このユーザーモデルの全フォロワーが、コレクションで返る。それをcountで数えてる
+        return $this->followers->count();
+    }
+
+    public function getCountFollowingsAttribute(): int
+    {
+        return $this->followings->count();
+    }
 }
