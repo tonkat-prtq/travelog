@@ -32,6 +32,8 @@ Route::prefix('users')
   ->group(function() {
     Route::get('/{name}','UserController@show')
       ->name('show');
+    Route::get('/{name}/likes', 'UserController@likes')
+      ->name('likes');
     Route::middleware('auth')
       ->group(function() {
         Route::put('/{name}/follow', 'UserController@follow')
