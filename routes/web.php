@@ -2,6 +2,13 @@
 
 Auth::routes();
 
+Route::prefix('login')
+  ->name('login.')
+  ->group(function() {
+    Route::get('/{provider}', 'Auth\LoginController@redirectToProvider')
+      ->name('{provider}');
+  });
+
 // rootページにアクセスがあったら、ArticleControllerのIndexアクションの処理が走る
 Route::get('/', 'ArticleController@index')
   ->name('articles.index');
