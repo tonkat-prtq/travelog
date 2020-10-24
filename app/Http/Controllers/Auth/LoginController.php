@@ -63,5 +63,14 @@ class LoginController extends Controller
             // ログイン後の画面へ遷移する
             return $this->sendLoginResponse($request);
         }
+
+        return redirect()->route('register.{provider}', [
+            'provider' => $provider,
+            'email' => $providerUser->getEmail(),
+
+            // providerUser->token では、Googleから発行されたトークンが返る
+            // このトークンがあれば、任意のタイミングでGoogleアカウントのユーザー情報を取得できる
+            'token' => $providerUser->token,
+        ]);
     }
 }
