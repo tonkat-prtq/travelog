@@ -11,6 +11,13 @@ Route::prefix('login')
       ->name('{provider}.callback');
   });
 
+Route::prefix('register')
+  ->name('register.')
+  ->group(function() {
+    Route::get('/{provider}', 'Auth\RegisterController@showProviderUserRegistrationForm')
+      ->name('{provider}');
+});
+
 // rootページにアクセスがあったら、ArticleControllerのIndexアクションの処理が走る
 Route::get('/', 'ArticleController@index')
   ->name('articles.index');
