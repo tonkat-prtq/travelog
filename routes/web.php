@@ -16,6 +16,8 @@ Route::prefix('register')
   ->group(function() {
     Route::get('/{provider}', 'Auth\RegisterController@showProviderUserRegistrationForm')
       ->name('{provider}');
+    Route::post('/{provider}', 'Auth\RegisterController@registerProviderUser')
+      ->name('{provider}');
 });
 
 // rootページにアクセスがあったら、ArticleControllerのIndexアクションの処理が走る
