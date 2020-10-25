@@ -24,7 +24,8 @@ class ArticleController extends Controller
             ->load([
                 'user',
                 'likes',
-                'tags'
+                'tags',
+                'photos'
             ]);
 
         return view('articles.index', ['articles' => $articles]);
