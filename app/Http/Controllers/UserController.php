@@ -12,7 +12,13 @@ class UserController extends Controller
     {
         // $nameにはルーティングの{name}に入った文字列が渡ってくる
         // Userのnameカラムが、$nameと一致するユーザーを取ってくる
-        $user = User::where('name', $name)->first();
+        $user = User::where('name', $name)->first()
+            ->load([
+                'articles.user',
+                'articles.likes',
+                'articles.tags',
+                'articles.photos'
+            ]);
 
         $articles = $user->articles->sortByDesc('created_at');
 
