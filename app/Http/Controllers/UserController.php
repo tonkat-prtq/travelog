@@ -12,7 +12,13 @@ class UserController extends Controller
     {
         // $nameにはルーティングの{name}に入った文字列が渡ってくる
         // Userのnameカラムが、$nameと一致するユーザーを取ってくる
-        $user = User::where('name', $name)->first();
+        $user = User::where('name', $name)->first()
+            ->load([
+                'articles.user',
+                'articles.likes',
+                'articles.tags',
+                'articles.photos'
+            ]);
 
         $articles = $user->articles->sortByDesc('created_at');
 
@@ -24,7 +30,15 @@ class UserController extends Controller
 
     public function likes(string $name)
     {
-        $user = User::where('name', $name)->first();
+        $user = User::where('name', $name)->first()
+            ->load([
+                // いいねした記事を投稿したユーザー
+                'likes.user',
+                // いいねした記事を、いいねした他のユーザーモデル
+                'likes.likes',
+                // いいねした記事につけられたタグ
+                'likes.tags'
+            ]);
 
         $articles = $user->likes->sortByDesc('created_at');
 
@@ -36,7 +50,9 @@ class UserController extends Controller
 
     public function followings(string $name)
     {
-        $user = User::where('name', $name)->first();
+        $user = User::where('name', $name)->first()
+            // フォロー中のユーザーのフォロワーを取得
+            ->load('followings.followers');
 
         $followings = $user->followings->sortByDesc('created_at');
 
@@ -48,7 +64,9 @@ class UserController extends Controller
     
     public function followers(string $name)
     {
-        $user = User::where('name', $name)->first();
+        $user = User::where('name', $name)->first()
+        // フォロワーのフォロワーを取得
+            ->load('followers.followers');
 
         $followers = $user->followers->sortByDesc('created_at');
 
