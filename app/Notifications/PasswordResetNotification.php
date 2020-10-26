@@ -55,7 +55,7 @@ class PasswordResetNotification extends Notification
             // $notifiableには、メール送信先となるUserモデルが代入されている
             ->to($notifiable->email)
             // subject = メールの件名
-            ->subject('[memo]パスワード再設定')
+            ->subject('[Travelog]パスワード再設定')
             // textメソッドはテキスト形式のメールを送るときに使うメソッド
             // 'emails.password_reset'とすることで、resources/views/emailsディレクトリの該当ファイルでテンプレートとして使用される
             ->text('emails.password_reset')
