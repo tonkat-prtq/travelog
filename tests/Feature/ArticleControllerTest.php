@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\User;
+
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -30,5 +32,23 @@ class ArticleControllerTest extends TestCase
 
         // 引数として渡されたURLへリダイレクトされたかどうかをテストしている
         $response->assertRedirect(route('login'));
+    }
+
+    public function testAuthCreate()
+    {
+        // まず、テストに必要なUserモデルを「準備」
+        // factory関数を使うと、テストに必要なモデルのインスタンスを、ファクトリを利用して生成できる
+        // RailsのFactoryBotと同じようなもの
+        // userモデルのファクトリはLaravelインストール時に存在しているのでそれを利用している
+        $user = factory(User::class)->create();
+
+        // ログインして記事投稿画面にアクセスすることを「実行」
+        // actingAsで、引数として渡したUserモデルでログインした状態を作り出せる
+        $response = $this->actingAs($user)
+            ->get(route('articles.create'));
+
+        // レスポンスを「検証」
+        $response->assertStatus(200)
+            ->assertViewIs('articles.create');
     }
 }
