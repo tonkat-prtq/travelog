@@ -22,4 +22,13 @@ class ArticleControllerTest extends TestCase
             // また、$responseで使用されているビューが、articles.indexを使用しているかどうかを確認する
             ->assertViewIs('articles.index');
     }
+
+    public function testGuestCreate()
+    {
+        // 特にログインするための処理を行っていないため、未ログイン状態で記事投稿画面にアクセスしている
+        $response = $this->get(route('articles.create'));
+
+        // 引数として渡されたURLへリダイレクトされたかどうかをテストしている
+        $response->assertRedirect(route('login'));
+    }
 }
