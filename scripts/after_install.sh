@@ -2,6 +2,6 @@
 
 set -eux
 
-cd ~/laravel-ci
+cd ~/travelog
 php artisan migrate --force
 php artisan config:cache
