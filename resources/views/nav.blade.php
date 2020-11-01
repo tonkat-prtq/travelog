@@ -4,8 +4,9 @@
 
   <ul class="navbar-nav ml-auto mr-auto">
     <li class="nav-item">
-      <form class="form-inline">
-        <input class="form-control" type="text" placeholder="Search" aria-label="Search">
+      <form action = "/search" method="post" class="form-inline">
+        @csrf
+        <input class="form-control" type="text" name='input' value="{{$input ?? ''}}" placeholder="Search" aria-label="Search">
       </form>
     </li>
   </ul>
