@@ -64,3 +64,7 @@ Route::prefix('users')
           ->name('unfollow');
       });
   });
+
+Route::get('/search','SearchController@index')
+  ->name('index');
+Route::post('/search', 'SearchController@search');
