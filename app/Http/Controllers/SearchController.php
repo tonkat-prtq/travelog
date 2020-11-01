@@ -13,7 +13,10 @@ class SearchController extends Controller
 
         if (!empty($keyword)) {
             $query->where('content', 'LIKE', "%{$keyword}%")
-            ->orwhere('title', 'LIKE', "%{$keyword}%");
+            ->orwhere('title', 'LIKE', "%{$keyword}%")
+            ->orWhereHas('tags', function($query) use($keyword) {
+                $query->where('name', 'LIKE', "%{$keyword}%");
+            });
         }
 
         $articles = $query->get();
