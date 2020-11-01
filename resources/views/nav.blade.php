@@ -1,8 +1,17 @@
-<nav class="navbar navbar-expand navbar-dark blue-gradient">
+<nav class="navbar navbar-expand navbar-dark blue-gradient justify-content-center">
 
-  <a class="navbar-brand" href="/"><i class="far fa-sticky-note mr-1"></i>Memo</a>
+  <a class="navbar-brand ml-auto mr-auto" href="/"><i class="far fa-sticky-note mr-1"></i>Memo</a>
 
-  <ul class="navbar-nav ml-auto">
+  <ul class="navbar-nav ml-auto mr-auto">
+    <li class="nav-item">
+      <form action = "/search" method="post" class="form-inline">
+        @csrf
+        <input class="form-control" type="text" name='input' value="{{$input ?? ''}}" placeholder="Search" aria-label="Search">
+      </form>
+    </li>
+  </ul>
+
+  <ul class="navbar-nav ml-auto mr-auto">
 
     @guest 
     <li class="nav-item">
