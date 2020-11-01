@@ -9,17 +9,31 @@ class SearchController extends Controller
     public function search(Request $request)
     {
         $keyword = $request->input;
-        $query = Article::query();
-
-        if (!empty($keyword)) {
-            $query->where('content', 'LIKE', "%{$keyword}%")
-            ->orwhere('title', 'LIKE', "%{$keyword}%")
-            ->orWhereHas('tags', function($query) use($keyword) {
-                $query->where('name', 'LIKE', "%{$keyword}%");
+        $query = Article::query()
+            ->when(isset($keyword), function($query) use ($keyword){
+                $query
+                    ->where('content', 'LIKE', "%{$keyword}%")
+                    ->orwhere('title', 'LIKE', "%{$keyword}%")
+                    ->orWhereHas('tags',function($query) use($keyword) {
+                        $query->where('name', 'LIKE', "%{$keyword}%");
+                    });
             });
-        }
 
-        $articles = $query->get();
+        // if (!empty($keyword)) {
+        //     $query->where('content', 'LIKE', "%{$keyword}%")
+        //     ->orwhere('title', 'LIKE', "%{$keyword}%")
+        //     ->orWhereHas('tags', function($query) use($keyword) {
+        //         $query->where('name', 'LIKE', "%{$keyword}%");
+        //     });
+        // }
+
+        $articles = $query->get()->sortByDesc('created_at')
+            ->load([
+                'user',
+                'likes',
+                'tags',
+                'photos'
+            ]);
         return view('search.index', ['articles' => $articles]);
     }
 
