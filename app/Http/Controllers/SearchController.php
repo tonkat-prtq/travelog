@@ -12,7 +12,8 @@ class SearchController extends Controller
         $query = Article::query();
 
         if (!empty($keyword)) {
-            $query->where('content', 'LIKE', "%{$keyword}%");
+            $query->where('content', 'LIKE', "%{$keyword}%")
+            ->orwhere('title', 'LIKE', "%{$keyword}%");
         }
 
         $articles = $query->get();
