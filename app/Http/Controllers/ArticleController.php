@@ -6,6 +6,9 @@ use App\Article;
 use App\Photo;
 use App\Tag;
 
+// Intervention Imageの呼び出し
+use \Image;
+
 // フォームリクエストの使用
 use App\Http\Requests\ArticleRequest;
 use Illuminate\Support\Facades\Auth;
