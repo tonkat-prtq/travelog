@@ -9,25 +9,23 @@ class SearchController extends Controller
     public function search(Request $request)
     {
         $keyword = $request->input;
-        $query = Article::query()
-            ->when(isset($keyword), function($query) use ($keyword){
+
+        // withでeager loadしている
+        $articles = Article::with(['user', 'likes', 'tags', 'photos'])
+            // もし検索キーワードはnullでなかったら以下のクエリを発行する
+            ->when(!is_null($keyword), function($query) use ($keyword) {
                 $query
                     ->where('content', 'LIKE', "%{$keyword}%")
-                    ->orwhere('title', 'LIKE', "%{$keyword}%")
+                    ->orWhere('title', 'LIKE', "%{$keyword}%")
                     ->orWhereHas('tags',function($query) use($keyword) {
                         $query->where('name', 'LIKE', "%{$keyword}%");
                     });
-            });
-
-        $articles = $query->get()->sortByDesc('created_at')
-            ->load([
-                'user',
-                'likes',
-                'tags',
-                'photos'
-            ]);
+            })
+            // orderByはgetの後だとCollectionの機能（つまり配列操作での並べ替え）になるので、SQLで実施したほうが処理的には早い
+            ->orderBy('created_at', 'desc')
+            ->get();
         return view('search.index', ['articles' => $articles]);
-    }
+        }
 
     public function index(Request $request)
     {
