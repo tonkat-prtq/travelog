@@ -63,11 +63,14 @@ class ArticleController extends Controller
             foreach ($request->file('files') as $index=>$e) {
                 // $storage_key = $e['photo']->store('uploads', 'public');
                 $photo = $e['photo'];
+                $extension = $photo->getClientOriginalExtension();
                 $filename = $photo->getClientOriginalName();
+                $resize_photo = Image::make($photo)
+                    ->resize(800, null, function ($constraint) {$constraint->aspectRatio();})
+                    ->encode($extension);
+                Storage::disk('s3')->put('/' . $filename, (string) $resize_photo, 'public');
+                $filepath = Storage::disk('s3')->url('/' . $filename);
 
-                $filepath = Storage::disk('s3')->put('/', $photo, 'public');
-                
-                // dd($photo, $filepath);
                 $article->photos()->create([
                     'name' => $filename,
                     'storage_key' => $filepath,
