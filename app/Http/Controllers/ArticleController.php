@@ -68,7 +68,7 @@ class ArticleController extends Controller
                 
                 $article->photos()->create([
                     'name' => $filename,
-                    'storage_key' => 'uploads/' . $storage_key->filename . "." . $storage_key->extension,
+                    'storage_key' => 'uploads/' . $filename,
                     ]);
             }
         }
