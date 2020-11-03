@@ -8,6 +8,7 @@ use App\Tag;
 
 // Intervention Imageの呼び出し
 use Image;
+use Storage;
 
 // フォームリクエストの使用
 use App\Http\Requests\ArticleRequest;
@@ -61,14 +62,18 @@ class ArticleController extends Controller
         if ($request->file('files')) {
             foreach ($request->file('files') as $index=>$e) {
                 // $storage_key = $e['photo']->store('uploads', 'public');
-                $filename = $e['photo']->getClientOriginalName();
-                $photo = Image::make($e['photo'])
+                $photo = $e['photo'];
+                $extension = $photo->getClientOriginalExtension();
+                $filename = $photo->getClientOriginalName();
+                $resize_photo = Image::make($photo)
                     ->resize(800, null, function ($constraint) {$constraint->aspectRatio();})
-                    ->save(storage_path('app/public/uploads/' . $filename));
-                
+                    ->encode($extension);
+                Storage::disk('s3')->put('/' . $filename, (string) $resize_photo, 'public');
+                $filepath = Storage::disk('s3')->url('/' . $filename);
+
                 $article->photos()->create([
                     'name' => $filename,
-                    'storage_key' => 'uploads/' . $filename,
+                    'storage_key' => $filepath,
                     ]);
             }
         }
