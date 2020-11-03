@@ -6,6 +6,9 @@ use App\Article;
 use App\Photo;
 use App\Tag;
 
+// Intervention Imageの呼び出し
+use Image;
+
 // フォームリクエストの使用
 use App\Http\Requests\ArticleRequest;
 use Illuminate\Support\Facades\Auth;
@@ -57,11 +60,15 @@ class ArticleController extends Controller
         // 画像アップロード
         if ($request->file('files')) {
             foreach ($request->file('files') as $index=>$e) {
-                $storage_key = $e['photo']->store('uploads', 'public');
+                // $storage_key = $e['photo']->store('uploads', 'public');
                 $filename = $e['photo']->getClientOriginalName();
+                $photo = Image::make($e['photo'])
+                    ->resize(800, null, function ($constraint) {$constraint->aspectRatio();})
+                    ->save(storage_path('app/public/uploads/' . $filename));
+                
                 $article->photos()->create([
                     'name' => $filename,
-                    'storage_key' => $storage_key
+                    'storage_key' => 'uploads/' . $filename,
                     ]);
             }
         }
