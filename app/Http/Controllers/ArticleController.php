@@ -69,7 +69,7 @@ class ArticleController extends Controller
                     ->resize(800, null, function ($constraint) {$constraint->aspectRatio();})
                     ->encode($extension);
                 Storage::disk('s3')->put('/' . $filename, (string) $resize_photo, 'public');
-                $filepath = Storage::disk('s3')->url('/' . $filename);
+                $filepath = Storage::disk('s3')->url($filename);
 
                 $article->photos()->create([
                     'name' => $filename,
