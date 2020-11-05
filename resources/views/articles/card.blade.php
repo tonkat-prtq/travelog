@@ -1,4 +1,6 @@
 <div class="card mt-3">
+    {{-- 画像表示専用のビューを作って呼び出している --}}
+    @include('articles.photos')
   <div class="card-body d-flex flex-row">
     <a href="{{ route('users.show', ['name' => $article->user->name]) }}" class="text-dark">
     <i class="fas fa-user-ninja fa-3x mr-1"></i>
@@ -60,6 +62,7 @@
 
   </div>
   <div class="card-body pt-0">
+
     <h3 class="h4 card-title">
       <a class="text-dark" href="{{ route('articles.show', ['article' => $article]) }}">
         {{ $article->title }}
@@ -71,8 +74,7 @@
     <h4 class="h5">
       終了日:{{ $article->end_date }}
     </h4>
-    {{-- 画像表示専用のビューを作って呼び出している --}}
-    @include('articles.photos')
+
     <div class="card-text">
       {!! nl2br(e( $article->content ))  !!}
     </div>
