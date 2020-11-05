@@ -32,10 +32,14 @@
 
 @section('addCSS')
   <style>
+    .carousel-indicators li{
+      background-color: rgba(76, 175, 80, 0.5);
+    }
+
     .carousel-item img {
       width: 100%;
-      height: 360px;
-      object-fit: cover;
+      height: 500px;
+      object-fit: contain;
     }
 
   .carousel-control-next-icon, .carousel-control-prev-icon {
