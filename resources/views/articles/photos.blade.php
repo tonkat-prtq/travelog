@@ -33,9 +33,14 @@
 @section('addCSS')
   <style>
     .carousel-item img {
-      width: 250px;
-      height: 250px;
-      object-fit: contain;
+      width: 100%;
+      height: 360px;
+      object-fit: cover;
+    }
+
+  .carousel-control-next-icon, .carousel-control-prev-icon {
+    background-color: rgba(76, 175, 80, 0.2);
+    border-radius: 10px;
   }
   </style>
 @endsection
