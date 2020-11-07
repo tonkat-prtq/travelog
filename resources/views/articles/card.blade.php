@@ -63,20 +63,12 @@
     @if (($article->photos->count() > 0))
       @include('articles.photos')
     @endif
-  <div class="card-body pt-0">
-
-    <h3 class="h4 card-title">
+  <div class="card-body pt-0 mt-2">
+    <h4 class="h4 card-title">
       <a class="text-dark" href="{{ route('articles.show', ['article' => $article]) }}">
         {{ $article->title }}
       </a>
-    </h3>
-    <h4 class="h5">
-      開始日:{{ $article->start_date }}
     </h4>
-    <h4 class="h5">
-      終了日:{{ $article->end_date }}
-    </h4>
-
     <div class="card-text">
       {!! nl2br(e( $article->content ))  !!}
     </div>
