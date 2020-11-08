@@ -1,0 +1,19 @@
+$first-color:          #8c7676;
+$second-color:         #99f0ca;
+$third-color:          #c9fdd7;
+$fourth-color:         #fdffe7;
+$primary-text-color:   #212121;
+$secondary-text-color: #757575;
+$divider-color:        #BDBDBD;
+$icon-color:           #000000;
+
+$theme-colors: (
+  "first-color":          $first-color,
+  "second-color":         $second-color,
+  "third-color":          $third-color,
+  "fourth-color":         $fourth-color,
+  "primary-text-color":   $primary-text-color,
+  "secondary-text-color": $secondary-text-color,
+  "divider-color":        $divider-color,
+  "icon-color":           $icon-color
+);
