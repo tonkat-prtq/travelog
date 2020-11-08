@@ -1,5 +1,5 @@
-<div class="card mt-3 card-head bg-first-color">
-  <div class="card-body d-flex flex-row">
+<div class="card mt-3">
+  <div class="card-body d-flex flex-row bg-first-color">
     <a href="{{ route('users.show', ['name' => $article->user->name]) }}" class="text-dark">
     <i class="fas fa-user-ninja fa mr-2"></i>
     </a>
@@ -99,12 +99,3 @@
     @endif
   @endforeach
 </div>
-
-@section('addCSS')
-  <style>
-    .card-head{
-      background-color: $first-color;
-    }
-  </style>
-@endsection
-
