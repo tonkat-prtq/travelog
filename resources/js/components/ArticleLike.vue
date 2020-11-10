@@ -5,7 +5,7 @@
       class="btn m-0 p-1 shadow-none"
     >
       <i class="fas fa-thumbs-up mr-1"
-        :class="{'blue-text':this.isLikedBy, 'animated heartBeat fast':this.gotToLike}"
+        :class="{'text-second-color':this.isLikedBy, 'animated heartBeat fast':this.gotToLike}"
         @click="clickLike"
       />
     </button>
