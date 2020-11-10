@@ -73,10 +73,11 @@ $danger:        $red !default;
 $light:         $gray-100 !default;
 $dark:          $gray-800 !default;
 
-$first-color:          #8c7676;
-$second-color:         #99f0ca;
-$third-color:          #c9fdd7;
-$fourth-color:         #fdffe7;
+$first-color:          #d9eaec;
+$second-color:         #74a64c;
+$third-color:          #bcd537;
+$fourth-color:         #6a6c85;
+$nice-white-color:     #f7f3e9;
 $primary-text-color:   #212121;
 $secondary-text-color: #757575;
 $divider-color:        #BDBDBD;
@@ -102,6 +103,7 @@ $theme-colors: map-merge(
     "second-color":         $second-color,
     "third-color":          $third-color,
     "fourth-color":         $fourth-color,
+    "nice-white-color":     $nice-white-color,
     "primary-text-color":   $primary-text-color,
     "secondary-text-color": $secondary-text-color,
     "divider-color":        $divider-color,
