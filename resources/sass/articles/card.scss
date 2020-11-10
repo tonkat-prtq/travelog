@@ -1,0 +1,28 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import '../variables';
+
+// Bootstrap 本体
+@import '../bootstrap/bootstrap.scss';
+
+// ywtのカード用（新デザイン）
+.card {
+  box-shadow: 3px 3px 6px -2px rgb(119, 119, 119),
+  3px 3px 8px rgba(255,255,255,0.8) inset;
+}
+
+.card-header {
+  background-color: $second-color;
+}
+
+.card-header-user a{
+  color: $nice-white-color;
+  letter-spacing: 0.1rem;
+  font-weight: bold;
+}
+
+.fa-ellipsis-v {
+  color: $nice-white-color;
+}
