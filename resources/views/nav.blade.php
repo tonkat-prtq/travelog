@@ -1,15 +1,15 @@
 <nav class="navbar navbar-expand bg-third-color justify-content-center">
 
-  <a class="navbar-brand ml-auto mr-auto text-muted text-decoration-none" href="/"><i class="far fa-sticky-note mr-1"></i>Memo</a>
+  <a class="navbar-brand ml-auto mr-auto text-black-50 text-decoration-none" href="/"><i class="fas fa-camera-retro mr-1"></i>Travelog</a>
 
-  <ul class="navbar-nav ml-auto mr-auto">
+  <div class="navbar-nav ml-auto mr-auto vertical-align-center">
     <li class="nav-item">
-      <form action = "/search" method="post" class="form-inline">
+      <form action = "/search" method="post" class="form-inline mb-0">
         @csrf
         <input class="form-control" type="text" name='input' value="{{$input ?? ''}}" placeholder="Search" aria-label="Search">
       </form>
     </li>
-  </ul>
+  </div>
 
   <ul class="navbar-nav ml-auto mr-auto">
 

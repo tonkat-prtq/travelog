@@ -26,3 +26,12 @@
 .fa-ellipsis-v {
   color: $nice-white-color;
 }
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-image: none;
+}
+
+.carousel-indicators li{
+  background-color: $first-color;
+}

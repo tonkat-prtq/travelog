@@ -21,11 +21,15 @@
     @endforeach
   </div>
   <a class="carousel-control-prev" href="#carousel-example-1z" role="button" data-slide="prev">
-    <span class="carousel-control-prev-icon bg-second-color" aria-hidden="true"></span>
+    <span class="carousel-control-prev-icon" aria-hidden="true">
+      <i class="fas fa-chevron-left text-black-50 fa-3x"></i>
+    </span>
     <span class="sr-only">Previous</span>
   </a>
   <a class="carousel-control-next" href="#carousel-example-1z" role="button" data-slide="next">
-    <span class="carousel-control-next-icon bg-second-color" aria-hidden="true"></span>
+    <span class="carousel-control-next-icon" aria-hidden="true">
+      <i class="fas fa-chevron-right text-black-50 fa-3x"></i>
+    </span>
     <span class="sr-only">Next</span>
   </a>
 </div> 
