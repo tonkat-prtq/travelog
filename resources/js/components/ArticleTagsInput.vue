@@ -68,6 +68,7 @@ export default {
     content: "#";
   }
 
+  // 追記
   .ti-input {
   border: 1px solid #bcd537;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
