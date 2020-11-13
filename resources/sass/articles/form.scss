@@ -1,24 +1,24 @@
-// Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+// // Fonts
+// @import url('https://fonts.googleapis.com/css?family=Nunito');
 
-// Variables
-@import '../variables';
+// // Variables
+// @import '../variables';
 
-// Bootstrap 本体
-@import '../bootstrap/bootstrap.scss';
+// // Bootstrap 本体
+// @import '../bootstrap/bootstrap.scss';
 
-.form-control, .ti-input, label.custom-file-label {
-  border: 1px solid $third-color;
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-  &:focus{
-    border-color: $third-color;
-    outline: 0;
-    box-shadow: 0 0 0 0.2rem rgba(32, 133, 12, 0.234);
-  }
-}
+// .form-control, .ti-input, label.custom-file-label {
+//   border: 1px solid $third-color;
+//   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+//   &:focus{
+//     border-color: $third-color;
+//     outline: 0;
+//     box-shadow: 0 0 0 0.2rem rgba(32, 133, 12, 0.234);
+//   }
+// }
 
-.custom-file-input:focus~.custom-file-label {
-  border-color: $third-color;
-  outline: 0;
-  box-shadow: 0 0 0 0.2rem rgba(32, 133, 12, 0.234);
-}
+// .custom-file-input:focus~.custom-file-label {
+//   border-color: $third-color;
+//   outline: 0;
+//   box-shadow: 0 0 0 0.2rem rgba(32, 133, 12, 0.234);
+// }
