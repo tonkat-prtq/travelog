@@ -36,7 +36,7 @@
 
                 <input type="hidden" name="remember" id="remember" value="on">
 
-                <button class="btn-first-color btn-block mt-2 mb-2 shadow-none" type="submit">ログイン</button>
+                <button class="btn-first-color btn-block mt-4 mb-2 shadow-none pb-1 pt-1" type="submit">ログイン</button>
 
               </form>
 
