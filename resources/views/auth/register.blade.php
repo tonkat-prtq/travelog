@@ -2,6 +2,11 @@
 
 @section('title', 'ユーザー登録')
 
+@include('nav')
+
+@include('error_card_list')
+
+
 @section('content')
   <div class="container">
     <div class="row">
@@ -13,33 +18,32 @@
               <i class="fab fa-google mr-1"></i>Googleで登録
             </a>
 
-            @include('error_card_list')
 
             <div class="card-text">
               <form method="POST" action="{{ route('register') }}">
                 @csrf
-                <div class="md-form">
+                <div class="form-group mt-4">
                   <label for="name">ユーザー名</label>
-                  <input class="form-control" type="text" id="name" name="name" required value="{{ old('name') }}">
+                  <input class="form-control" type="text" id="name" name="name" placeholder="NapoleonSolo" required value="{{ old('name') }}">
                   <small>英数字4〜16文字(登録後の変更はできません)</small>
                 </div>
-                <div class="md-form">
+                <div class="form-group mt-2">
                   <label for="email">メールアドレス</label>
-                  <input class="form-control" type="text" id="email" name="email" required value="{{ old('email') }}" >
+                  <input class="form-control" type="text" id="email" name="email" placeholder="example@com" required value="{{ old('email') }}" >
                 </div>
-                <div class="md-form">
+                <div class="form-group">
                   <label for="password">パスワード</label>
                   <input class="form-control" type="password" id="password" name="password" required>
                 </div>
-                <div class="md-form">
+                <div class="form-group">
                   <label for="password_confirmation">パスワード(確認)</label>
                   <input class="form-control" type="password" id="password_confirmation" name="password_confirmation" required>
                 </div>
-                <button class="btn btn-block blue-gradient mt-2 mb-2" type="submit">ユーザー登録</button>
+                <button class="btn-second-color btn-block mt-4 mb-2 pb-1 pt-1" type="submit">ユーザー登録</button>
               </form>
 
               <div class="mt-0">
-                <a href="{{ route('login') }}" class="card-text">ログインはこちら</a>
+                <a href="{{ route('login') }}" class="btn-block text-decoration-none btn-first-color pb-1 pt-1">ログインはこちら</a>
               </div>
               
             </div>
