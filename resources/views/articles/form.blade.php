@@ -1,4 +1,5 @@
 @csrf
+<link rel="stylesheet" href="{{ asset('css/form.css') }}">
 <div class="form-group">
   <label class="form-title  mt-3">タイトル</label>
   <input type="text" name="title" class="form-control" placeholder="タイトル" required value="{{ $article->title ?? old('title') }}">
@@ -31,7 +32,7 @@
 <div class="form-group">
   画像ファイル（複数可)
   <div class="custom-file">
-    <input type="file" class="custom-file-input" id="inputFile" name="file[][photo]" multiple>
+    <input type="file" class="custom-file-input" id="inputFile" name="files[][photo]" multiple>
     <label class="custom-file-label" for="inputFile">ファイルを選択</label>
   </div>
 </div>
@@ -42,4 +43,3 @@
   <label></label>
   <textarea name="content" required class="form-control" rows="16" placeholder="本文">{{ $article->content ?? old('content') }}</textarea>
 </div>
-<link rel="stylesheet" href="{{ asset('css/form.css') }}">
