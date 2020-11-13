@@ -68,14 +68,15 @@ export default {
     content: "#";
   }
 
-  // 追記
-  .ti-input {
+  
+  .vue-tags-input .ti-input {
   border: 1px solid #bcd537;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-  &:focus{
+    &:focus{
     border-color: #bcd537;
     outline: 0;
     box-shadow: 0 0 0 0.2rem rgba(30, 106, 15, 0.25);
+    }
   }
-}
+
 </style>
