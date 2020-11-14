@@ -33,3 +33,12 @@ button {
 a.nav-link.text-muted.active {
   background-color: $first-color;
 }
+
+// navbarのドロップダウン
+button.dropdown-item.logout-button:active {
+  background-color: red;
+}
+
+button.dropdown-item.text-decoration-none.mypage-button:active {
+  background-color: $second-color;
+}
