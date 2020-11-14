@@ -19,7 +19,7 @@
       <div class="ml-auto card-text">
         <div class="dropdown">
           <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fas fa-ellipsis-v"></i>
+            <i class="fas fa-ellipsis-v text-black-50"></i>
           </a>
           <div class="dropdown-menu dropdown-menu-right">
             <a class="dropdown-item" href="{{ route("articles.edit", ['article' => $article]) }}">
