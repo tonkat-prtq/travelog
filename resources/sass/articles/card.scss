@@ -14,11 +14,12 @@
 }
 
 .card-header {
-  background-color: $second-color;
+  background-color: white;
+  border: none;
 }
 
 .card-header-user a{
-  color: $nice-white-color;
+  color: #131313;
   letter-spacing: 0.1rem;
   font-weight: bold;
 }
