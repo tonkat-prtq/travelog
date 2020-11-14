@@ -28,3 +28,8 @@
 button {
   border: $first-color;
 }
+
+// ユーザーマイページの記事といいねタブ
+a.nav-link.text-muted.active {
+  background-color: $first-color;
+}
