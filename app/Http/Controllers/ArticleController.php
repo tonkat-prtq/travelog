@@ -157,9 +157,14 @@ class ArticleController extends Controller
         
         $article->fill($request->all())->save();
 
+        // タグの編集
+        // 記事に紐付いているタグを一旦すべて削除
         $article->tags()->detach();
+        // 送られてきたタグの情報を一つずつ取り出す
         $request->tags->each(function ($tagName) use ($article) {
+            // 送られてきたタグの名前が、データベースに登録されていなかったら新しく作り、登録されていたらそれを探して変数$tagに入れる
             $tag = Tag::firstOrCreate(['name' => $tagName]);
+            // Articleモデルのtagsリレーションで紐付けて登録する
             $article->tags()->attach($tag);
         });
 
