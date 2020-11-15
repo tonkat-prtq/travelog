@@ -9,9 +9,9 @@
   </title>
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
-  <!-- 数字のフォント -->
+  <!-- Googleフォント -->
   <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@400;700&family=M+PLUS+Rounded+1c:wght@100;300;400&display=swap" rel="stylesheet">
   <!-- CSSファイルの読み込み -->
   <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 

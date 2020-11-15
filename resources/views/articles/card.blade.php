@@ -74,7 +74,7 @@
   <!-- card title -->
   <div class="card-body pt-0 mt-1">
     <h4 class="h4 card-title text-center">
-      <a class="text-dark" href="{{ route('articles.show', ['article' => $article]) }}">
+      <a class="text-dark article-title" href="{{ route('articles.show', ['article' => $article]) }}">
         {{ $article->title }}
       </a>
       <span class="travel-date">{{ $article->start_date }}
