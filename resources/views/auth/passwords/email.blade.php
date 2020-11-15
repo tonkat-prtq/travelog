@@ -6,8 +6,6 @@
 
 @include('error_card_list')
 
-<link rel="stylesheet" href="{{ asset('css/card.css') }}">
-
 @section('content')
   <div class="container">
     <div class="row">

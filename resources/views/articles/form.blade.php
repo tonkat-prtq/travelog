@@ -1,5 +1,4 @@
 @csrf
-<link rel="stylesheet" href="{{ asset('css/form.css') }}">
 <div class="form-group">
   <label class="form-title  mt-3">タイトル</label>
   <input type="text" name="title" class="form-control" placeholder="タイトル" required value="{{ $article->title ?? old('title') }}">

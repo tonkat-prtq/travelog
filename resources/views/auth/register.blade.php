@@ -6,7 +6,6 @@
 
 @include('error_card_list')
 
-
 @section('content')
   <div class="container">
     <div class="row">

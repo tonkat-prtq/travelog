@@ -1,14 +1,11 @@
 // Fonts
 @import url('https://fonts.googleapis.com/css?family=Nunito');
 
-// Variables
-@import 'variables';
-
 // Bootstrap 本体
 @import 'bootstrap/bootstrap.scss';
 
 // form関係
-.form-control, .ti-input, label.custom-file-label {
+.form-control, .ti-input, label.custom-file-label, input.form-inline {
   border: 1px solid $third-color;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   &:focus{
@@ -22,6 +19,44 @@
   border-color: $third-color;
   outline: 0;
   box-shadow: 0 0 0 0.2rem rgba(32, 133, 12, 0.234);
+}
+
+// ywtのカード用（新デザイン）
+.card {
+  box-shadow: 3px 3px 9px -2px rgb(119, 119, 119),
+  3px 3px 8px rgba(255,255,255,0.8) inset;
+}
+
+.card-header {
+  background-color: white;
+  border: none;
+}
+
+.card-header-user a{
+  color: #131313;
+  letter-spacing: 0.1rem;
+  font-weight: bold;
+}
+
+.carousel-item img {
+  width: 100%;
+  height: 600px;
+  object-fit: contain;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-image: none;
+}
+
+.carousel-indicators li{
+  background-color: $first-color;
+}
+
+
+// placeholderの色がデフォルトでは濃すぎるので調整
+.form-control::placeholder{
+  color: #cccaca;
 }
 
 // ログイン画面のbutton

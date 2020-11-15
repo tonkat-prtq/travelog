@@ -1,4 +1,3 @@
-<link rel="stylesheet" href="{{ asset('css/card.css') }}">
 <!-- card setting -->
 <div class="card mt-3">
   <!-- card header -->

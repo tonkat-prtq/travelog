@@ -33,23 +33,4 @@
     <span class="sr-only">Next</span>
   </a>
 </div> 
-
-@section('addCSS')
-  <style>
-    .carousel-indicators li{
-      background-color: grey;
-    }
-
-    .carousel-item img {
-      width: 100%;
-      height: 500px;
-      object-fit: contain;
-    }
-
-    .carousel-control-next-icon, .carousel-control-prev-icon {
-      background-color: grey;
-      border-radius: 10px;
-    }
-  </style>
-@endsection
 <!--/.Carousel Wrapper-->
