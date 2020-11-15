@@ -68,3 +68,6 @@ Route::prefix('users')
 Route::get('/search','SearchController@index')
   ->name('index');
 Route::post('/search', 'SearchController@search');
+
+Route::get('/top', 'TopController@index')
+  ->name('landing');
