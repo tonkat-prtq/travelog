@@ -31,7 +31,7 @@
                   <input class="form-control" type="password" id="password_confirmation" name="password_confirmation" required>
                 </div>
 
-                <button class="btn-primary btn-block blue-gradient mt-4 mb-2" type="submit">送信</button>
+                <button class="btn-primary btn-block blue-gradient mt-4 mb-2 pb-1 pt-1" type="submit">送信</button>
 
               </form>
 
