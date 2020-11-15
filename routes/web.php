@@ -70,4 +70,4 @@ Route::get('/search','SearchController@index')
 Route::post('/search', 'SearchController@search');
 
 Route::get('/top', 'TopController@index')
-  ->name('landing');
+  ->name('index');
