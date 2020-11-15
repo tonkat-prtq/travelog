@@ -54,11 +54,23 @@
 }
 
 @media (min-width: 768px) {
+  .article-title {
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+  }
+
   .travel-date {
-    font-family: 'Amatic SC', cursive;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
     font-weight: bold;
     font-size: 1.2rem;
     margin-left: 3rem;
+  }
+
+  .navbar-brand {
+    padding-left: 13rem;
+  }
+
+  .navbar-nav form {
+    margin-right: 4rem;
   }
 }
 
@@ -69,9 +81,13 @@
     object-fit: cover;
   }
 
+  .article-title {
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+  }
+  
   .travel-date {
     display: block;
-    font-family: 'Amatic SC', cursive;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
     font-weight: bold;
     font-size: 1rem;
     margin-top: 0.6rem;
