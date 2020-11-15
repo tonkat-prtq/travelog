@@ -3,7 +3,7 @@
   <!-- card header -->
   <div class="card-header d-flex flex-row">
     <a href="{{ route('users.show', ['name' => $article->user->name]) }}" class="text-divider-color">
-    <i class="fas fa-user-circle fa-lg mr-2"></i>
+    <i class="fas fa-user-circle fa-lg mr-2 mt-1"></i>
     </a>
     <div>
       <div class="card-header-user">
