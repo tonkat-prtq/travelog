@@ -2,6 +2,10 @@
 
 @section('title', 'パスワード再設定')
 
+@include('nav')
+
+@include('error_card_list')
+
 @section('content')
   <div class="container">
     <div class="row">
@@ -10,8 +14,6 @@
         <div class="card mt-3">
           <div class="card-body text-center">
             <h2 class="h3 card-title text-center mt-2">新しいパスワードを設定</h2>
-
-            @include('error_card_list')
 
             <div class="card-text">
               <form method="POST" action="{{ route('password.update') }}">
@@ -25,12 +27,12 @@
                   <input class="form-control" type="password" id="password" name="password" required>
                 </div>
 
-                <div class="md-form">
+                <div class="md-form mt-3">
                   <label for="password_confirmation">新しいパスワード(再入力)</label>
                   <input class="form-control" type="password" id="password_confirmation" name="password_confirmation" required>
                 </div>
 
-                <button class="btn btn-block blue-gradient mt-2 mb-2" type="submit">送信</button>
+                <button class="btn-primary btn-block blue-gradient mt-4 mb-2" type="submit">送信</button>
 
               </form>
 
