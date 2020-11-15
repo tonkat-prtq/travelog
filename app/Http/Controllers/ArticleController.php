@@ -156,6 +156,13 @@ class ArticleController extends Controller
 
         
         $article->fill($request->all())->save();
+
+        $article->tags()->detach();
+        $request->tags->each(function ($tagName) use ($article) {
+            $tag = Tag::firstOrCreate(['name' => $tagName]);
+            $article->tags()->attach($tag);
+        });
+
         return redirect()->route('articles.index');
     }
 
