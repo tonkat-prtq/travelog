@@ -24,15 +24,13 @@
 
 <!-- /.jumbotron -->
 
-<div class="container-1">
+<div class="container-1 bg-second-color pb-3 pt-5">
   <!-- ブラウザのwidthで画像を変える -->
   <picture class="demo-image img-fluid">
     <source media="(min-width:768px)" srcset="{{ asset('images/lp-indexpage-lg.png') }}" class="img-fluid">
     <img src="{{ asset('images/lp-indexpage-sm.png') }}" class="img-fluid">
   </picture>
-  <p class="mt-3">写真をメインとし、邪魔しないスッキリとしたデザイン</p>
+  <p class="mt-3 h4 font-weight-light text-nice-white-color">写真と一緒に、旅の思い出を記録しよう</p>
 </div>
 
-<div class="photo-container">
-</div>
 <!-- /.container -->
