@@ -72,11 +72,16 @@
   <!-- photo carousel -->
 
   <!-- card title -->
-  <div class="card-body pt-0 mt-2">
-    <h4 class="h4 card-title">
+  <div class="card-body pt-0 mt-1">
+    <h4 class="h4 card-title text-center">
       <a class="text-dark" href="{{ route('articles.show', ['article' => $article]) }}">
         {{ $article->title }}
       </a>
+      <span class="travel-date">{{ $article->start_date }}
+      @if ($article->end_date !== $article->start_date)
+        - {{ $article->end_date }}
+      @endif
+      </span>
     </h4>
     <div class="card-text">
       {!! nl2br(e( $article->content ))  !!}

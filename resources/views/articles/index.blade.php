@@ -5,27 +5,19 @@
 @include('nav')
 
 @section('content')
-  <div class="container">
+  <div class="container index">
     @foreach($articles as $article)
       @include('articles.card')
     @endforeach
 
     <div class="pagetop">
-      <p class="mt-2 float-right"><a href="#top"><i class="fas fa-arrow-circle-up fa-4x text-first-color ml-auto"></i></a></p>
+      <p class="mt-2 float-right"><a href="#top"><i class="fas fa-arrow-circle-up fa-3x text-first-color ml-auto"></i></a></p>
     </div>
   </div>
 
   @section('addCSS')
   <style>
-    .container {
-      position: relative;
-    }
- 
-    .pagetop{
-      position:fixed;
-      bottom:5px;
-      right:5px;
-    }
+
   </style>
   @endsection
 

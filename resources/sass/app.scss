@@ -53,6 +53,32 @@
   background-color: $first-color;
 }
 
+@media (min-width: 768px) {
+  .travel-date {
+    font-family: 'Amatic SC', cursive;
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-left: 3rem;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .carousel-item img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+  }
+
+  .travel-date {
+    display: block;
+    font-family: 'Amatic SC', cursive;
+    font-weight: bold;
+    font-size: 1rem;
+    margin-top: 0.6rem;
+  }
+}
+
+
 
 // placeholderの色がデフォルトでは濃すぎるので調整
 .form-control::placeholder{
@@ -76,4 +102,15 @@ button.dropdown-item.logout-button:active {
 
 button.dropdown-item.text-decoration-none.mypage-button:active {
   background-color: $second-color;
+}
+
+// 上に戻るボタン
+.container .index {
+  position: relative;
+}
+
+.pagetop{
+  position:fixed;
+  bottom:5px;
+  right:5px;
 }
