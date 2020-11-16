@@ -10,7 +10,6 @@
   <div class="container">
     <div class="row">
       <div class="mx-auto col col-12 col-sm-11 col-md-9 col-lg-7 col-xl-6">
-        <h1 class="text-center"><a class="text-dark" href="/">memo</a></h1>
         <div class="card mt-3">
           <div class="card-body text-center">
             <h2 class="h3 card-title text-center mt-2">新しいパスワードを設定</h2>
@@ -32,7 +31,7 @@
                   <input class="form-control" type="password" id="password_confirmation" name="password_confirmation" required>
                 </div>
 
-                <button class="btn-primary btn-block blue-gradient mt-4 mb-2" type="submit">送信</button>
+                <button class="btn-primary btn-block blue-gradient mt-4 mb-2 pb-1 pt-1" type="submit">送信</button>
 
               </form>
 
