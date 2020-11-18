@@ -33,7 +33,8 @@ class ArticleRequest extends FormRequest
             'end_date' => 'required|after_or_equal:start_date',
 
             // 画像ファイル
-            'files.*.photo' => 'image|mimes:jpeg,bmp,png', # 追記
+            'files.*.photo' => 'bail|image|mimes:jpeg,bmp,png',
+
 
             'stored_photo_ids',
 
@@ -51,6 +52,7 @@ class ArticleRequest extends FormRequest
             'start_date' => '開始日',
             'end_date' => '終了日',
             'tag' => 'タグ',
+            'files.*.photo' => 'アップロードするファイル'
         ];
     }
 
