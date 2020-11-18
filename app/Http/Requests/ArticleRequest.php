@@ -33,7 +33,7 @@ class ArticleRequest extends FormRequest
             'end_date' => 'required|after_or_equal:start_date',
 
             // 画像ファイル
-            'files.*.photo' => 'image|mimes:jpeg,bmp,png',
+            'files.*.photo' => 'bail|image|mimes:jpeg,bmp,png',
 
 
             'stored_photo_ids',
