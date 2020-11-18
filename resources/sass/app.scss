@@ -98,6 +98,16 @@ button.dropdown-item.text-decoration-none.mypage-button:active {
   right:5px;
 }
 
+// ページネーション
+.page-item.active .page-link{
+  background-color: $second-color;
+  border-color: $second-color;
+}
+
+a.page-link {
+  color: #1f1f1f
+}
+
 // ランディング
 
 .jumbotron {

@@ -14,6 +14,7 @@ use Storage;
 use App\Http\Requests\ArticleRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class ArticleController extends Controller
 {
@@ -22,7 +23,7 @@ class ArticleController extends Controller
         $this->authorizeResource(Article::class, 'article');
     }
     
-    public function index()
+    public function index(Request $request)
     {
         $articles = Article::all()->sortByDesc('created_at')
             ->load([
@@ -32,7 +33,18 @@ class ArticleController extends Controller
                 'photos'
             ]);
 
-        return view('articles.index', ['articles' => $articles]);
+        // ページネーション用
+        $articlePaginate = new LengthAwarePaginator(
+
+            // forPageでコレクションでもページネーションできる
+            $articles->forPage($request->page, 5),
+            $articles->count(),
+            5,
+            null,
+            ['path' => $request->url()]
+        );
+
+        return view('articles.index', ['articles' => $articlePaginate]);
     }
 
     public function create()

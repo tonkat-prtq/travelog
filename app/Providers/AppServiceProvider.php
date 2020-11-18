@@ -25,6 +25,9 @@ class AppServiceProvider extends ServiceProvider
     {
         if($this->app->environment('production')) {
             \URL::forceScheme('https');
+            
+            // ページネーションのURLもhttpsに対応させる
+            $this->app['request']->server->set('HTTPS','on');
         }
     }
 }
