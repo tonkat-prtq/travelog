@@ -13,7 +13,13 @@
     <div class="pagetop">
       <p class="mt-2 float-right"><a href="#top"><i class="fas fa-arrow-circle-up fa-3x text-first-color ml-auto"></i></a></p>
     </div>
+
+    <!-- ページネーション -->
+    <div class="article-paginator mt-2">
+    {{ $articles->links() }}
+    </div>
   </div>
+
 
   @section('addCSS')
   <style>
