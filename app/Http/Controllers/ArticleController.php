@@ -3,58 +3,54 @@
 namespace App\Http\Controllers;
 
 use App\Article;
+// フォームリクエストの使用
+use App\Http\Requests\ArticleRequest;
 use App\Photo;
+
 use App\Tag;
+use Illuminate\Http\Request;
+
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Auth;
 
 // Intervention Imageの呼び出し
 use Image;
 use Storage;
 
-// フォームリクエストの使用
-use App\Http\Requests\ArticleRequest;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
-use Illuminate\Pagination\LengthAwarePaginator;
-
 class ArticleController extends Controller
 {
     public function __construct()
     {
-        $this->authorizeResource(Article::class, 'article');
+        $this->authorizeResource(Article::class, "article");
     }
-    
+
     public function index(Request $request)
     {
-        $articles = Article::all()->sortByDesc('created_at')
-            ->load([
-                'user',
-                'likes',
-                'tags',
-                'photos'
-            ]);
+        $articles = Article::all()
+            ->sortByDesc("created_at")
+            ->load(["user", "likes", "tags", "photos"]);
 
         // ページネーション用
         $articlePaginate = new LengthAwarePaginator(
-
             // forPageでコレクションでもページネーションできる
             $articles->forPage($request->page, 5),
             $articles->count(),
             5,
             null,
-            ['path' => $request->url()]
+            ["path" => $request->url()]
         );
 
-        return view('articles.index', ['articles' => $articlePaginate]);
+        return view("articles.index", ["articles" => $articlePaginate]);
     }
 
     public function create()
     {
         $allTagNames = Tag::all()->map(function ($tag) {
-            return ['text' => $tag->name];
+            return ["text" => $tag->name];
         });
 
-        return view('articles.create', [
-            'allTagNames' => $allTagNames,
+        return view("articles.create", [
+            "allTagNames" => $allTagNames,
         ]);
     }
 
@@ -69,24 +65,30 @@ class ArticleController extends Controller
         $article->user_id = $request->user()->id;
 
         $article->save();
-        
+
         // 画像アップロード
-        if ($request->file('files')) {
-            foreach ($request->file('files') as $index=>$e) {
+        if ($request->file("files")) {
+            foreach ($request->file("files") as $index => $e) {
                 // $storage_key = $e['photo']->store('uploads', 'public');
-                $photo = $e['photo'];
+                $photo = $e["photo"];
                 $extension = $photo->getClientOriginalExtension();
                 $filename = $photo->getClientOriginalName();
                 $resize_photo = Image::make($photo)
-                    ->resize(800, null, function ($constraint) {$constraint->aspectRatio();})
+                    ->resize(800, null, function ($constraint) {
+                        $constraint->aspectRatio();
+                    })
                     ->encode($extension);
-                Storage::disk('s3')->put('/' . $filename, (string) $resize_photo, 'public');
-                $filepath = Storage::disk('s3')->url($filename);
+                Storage::disk("s3")->put(
+                    "/" . $filename,
+                    (string) $resize_photo,
+                    "public"
+                );
+                $filepath = Storage::disk("s3")->url($filename);
 
                 $article->photos()->create([
-                    'name' => $filename,
-                    'storage_key' => $filepath,
-                    ]);
+                    "name" => $filename,
+                    "storage_key" => $filepath,
+                ]);
             }
         }
 
@@ -94,30 +96,30 @@ class ArticleController extends Controller
         // $requestからタグの情報を一つずつ取り出す
         // 無名関数の中で$articleを使うため、use ($article)とする
         $request->tags->each(function ($tagName) use ($article) {
-            $tag = Tag::firstOrCreate(['name' => $tagName]);
+            $tag = Tag::firstOrCreate(["name" => $tagName]);
             $article->tags()->attach($tag);
         });
 
-        return redirect()->route('articles.index');
+        return redirect()->route("articles.index");
     }
 
     public function edit(Article $article)
     {
         $tagNames = $article->tags->map(function ($tag) {
-            return ['text' => $tag->name];
+            return ["text" => $tag->name];
         });
 
         $allTagNames = Tag::all()->map(function ($tag) {
-            return ['text' => $tag->name];
+            return ["text" => $tag->name];
         });
 
         $articlePhotos = $article->photos;
 
-        return view('articles.edit', [
-            'article' => $article,
-            'tagNames' => $tagNames,
-            'allTagNames' => $allTagNames,
-            'photos' => $articlePhotos
+        return view("articles.edit", [
+            "article" => $article,
+            "tagNames" => $tagNames,
+            "allTagNames" => $allTagNames,
+            "photos" => $articlePhotos,
         ]);
     }
 
@@ -127,14 +129,12 @@ class ArticleController extends Controller
         // もともと記事に紐付いていた画像で、削除をしないもののidが配列で入っている
         $stored_photos = $request->stored_photo_ids;
 
-
         // 記事に紐付いていた画像があり、それをすべて削除した場合、$stored_photoには何も入らない。その時の処理を先にする
         // もし$stored_photosが空、かつ、元々の記事に紐付いていた画像があったなら
         if (empty($stored_photos) && $article->photos) {
             // 編集中の記事に紐付いた画像をすべて削除する(deleteとすることで複数削除)
-            Photo::where('article_id', $article->id)->delete();
-        }
-        else {
+            Photo::where("article_id", $article->id)->delete();
+        } else {
             // もともと記事に紐付いていた複数の画像を取り出して変数$photoに格納
             foreach ($article->photos as $photo) {
                 // in_arrayで、取り出した画像が削除されているかどうかを判断する
@@ -147,26 +147,31 @@ class ArticleController extends Controller
             }
         }
 
-        if ($request->file('files')) {
-            foreach ($request->file('files') as $index=>$e) {
+        if ($request->file("files")) {
+            foreach ($request->file("files") as $index => $e) {
                 // $storage_key = $e['photo']->store('uploads', 'public');
-                $photo = $e['photo'];
+                $photo = $e["photo"];
                 $extension = $photo->getClientOriginalExtension();
                 $filename = $photo->getClientOriginalName();
                 $resize_photo = Image::make($photo)
-                    ->resize(800, null, function ($constraint) {$constraint->aspectRatio();})
+                    ->resize(800, null, function ($constraint) {
+                        $constraint->aspectRatio();
+                    })
                     ->encode($extension);
-                Storage::disk('s3')->put('/' . $filename, (string) $resize_photo, 'public');
-                $filepath = Storage::disk('s3')->url($filename);
+                Storage::disk("s3")->put(
+                    "/" . $filename,
+                    (string) $resize_photo,
+                    "public"
+                );
+                $filepath = Storage::disk("s3")->url($filename);
 
                 $article->photos()->create([
-                    'name' => $filename,
-                    'storage_key' => $filepath,
-                    ]);
+                    "name" => $filename,
+                    "storage_key" => $filepath,
+                ]);
             }
         }
 
-        
         $article->fill($request->all())->save();
 
         // タグの編集
@@ -175,33 +180,33 @@ class ArticleController extends Controller
         // 送られてきたタグの情報を一つずつ取り出す
         $request->tags->each(function ($tagName) use ($article) {
             // 送られてきたタグの名前が、データベースに登録されていなかったら新しく作り、登録されていたらそれを探して変数$tagに入れる
-            $tag = Tag::firstOrCreate(['name' => $tagName]);
+            $tag = Tag::firstOrCreate(["name" => $tagName]);
             // Articleモデルのtagsリレーションで紐付けて登録する
             $article->tags()->attach($tag);
         });
 
-        return redirect()->route('articles.index');
+        return redirect()->route("articles.index");
     }
 
     public function destroy(Article $article)
     {
         $article->delete();
-        return redirect()->route('articles.index');
+        return redirect()->route("articles.index");
     }
 
     public function show(Article $article)
     {
-        return view('articles.show', ['article' => $article]);
+        return view("articles.show", ["article" => $article]);
     }
 
     public function like(Request $request, Article $article)
-    { 
+    {
         $article->likes()->detach($request->user()->id);
         $article->likes()->attach($request->user()->id);
 
         return [
-            'id' => $article->id,
-            'countLikes' => $article->count_likes,
+            "id" => $article->id,
+            "countLikes" => $article->count_likes,
         ];
     }
 
@@ -210,9 +215,8 @@ class ArticleController extends Controller
         $article->likes()->detach($request->user()->id);
 
         return [
-            'id' => $article->id,
-            'countLikes' => $article->count_likes,
+            "id" => $article->id,
+            "countLikes" => $article->count_likes,
         ];
     }
-
 }
