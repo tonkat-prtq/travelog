@@ -3,45 +3,40 @@
 namespace App\Http\Controllers;
 
 use App\Article;
+use App\Http\Requests\ArticleRequest;
 use App\Photo;
-use App\Tag;
 
+use App\Repositries\ImageUploadRepository;
+use App\Tag;
+// フォームリクエストの使用
+use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Auth;
 // Intervention Imageの呼び出し
 use Image;
 use Storage;
 
-// フォームリクエストの使用
-use App\Http\Requests\ArticleRequest;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
-use Illuminate\Pagination\LengthAwarePaginator;
-
 class ArticleController extends Controller
 {
-    public function __construct()
+    private $imageUploadRepo;
+    public function __construct(ImageUploadRepository $imageUploadRepo)
     {
         $this->authorizeResource(Article::class, 'article');
+        $this->imageUploadRepo = $imageUploadRepo;
     }
-    
+
     public function index(Request $request)
     {
-        $articles = Article::all()->sortByDesc('created_at')
-            ->load([
-                'user',
-                'likes',
-                'tags',
-                'photos'
-            ]);
+        $articles = Article::all()
+            ->sortByDesc('created_at')
+            ->load(['user', 'likes', 'tags', 'photos']);
 
-        // ページネーション用
         $articlePaginate = new LengthAwarePaginator(
-
-            // forPageでコレクションでもページネーションできる
             $articles->forPage($request->page, 5),
             $articles->count(),
             5,
             null,
-            ['path' => $request->url()]
+            ['path' => $request->url()],
         );
 
         return view('articles.index', ['articles' => $articlePaginate]);
@@ -69,24 +64,19 @@ class ArticleController extends Controller
         $article->user_id = $request->user()->id;
 
         $article->save();
-        
+
         // 画像アップロード
         if ($request->file('files')) {
-            foreach ($request->file('files') as $index=>$e) {
-                // $storage_key = $e['photo']->store('uploads', 'public');
-                $photo = $e['photo'];
-                $extension = $photo->getClientOriginalExtension();
-                $filename = $photo->getClientOriginalName();
-                $resize_photo = Image::make($photo)
-                    ->resize(800, null, function ($constraint) {$constraint->aspectRatio();})
-                    ->encode($extension);
-                Storage::disk('s3')->put('/' . $filename, (string) $resize_photo, 'public');
-                $filepath = Storage::disk('s3')->url($filename);
+            foreach ($request->file('files') as $index => $e) {
+                // 配列をそのまま受け取って、それぞれの変数に格納するlist
+                [$filename, $filepath] = $this->imageUploadRepo->upload(
+                    $e['photo'],
+                );
 
                 $article->photos()->create([
                     'name' => $filename,
                     'storage_key' => $filepath,
-                    ]);
+                ]);
             }
         }
 
@@ -101,6 +91,10 @@ class ArticleController extends Controller
         return redirect()->route('articles.index');
     }
 
+    /**
+     * Undocumented function
+     * @param \App\Article $article
+     */
     public function edit(Article $article)
     {
         $tagNames = $article->tags->map(function ($tag) {
@@ -117,7 +111,7 @@ class ArticleController extends Controller
             'article' => $article,
             'tagNames' => $tagNames,
             'allTagNames' => $allTagNames,
-            'photos' => $articlePhotos
+            'photos' => $articlePhotos,
         ]);
     }
 
@@ -127,14 +121,12 @@ class ArticleController extends Controller
         // もともと記事に紐付いていた画像で、削除をしないもののidが配列で入っている
         $stored_photos = $request->stored_photo_ids;
 
-
         // 記事に紐付いていた画像があり、それをすべて削除した場合、$stored_photoには何も入らない。その時の処理を先にする
         // もし$stored_photosが空、かつ、元々の記事に紐付いていた画像があったなら
         if (empty($stored_photos) && $article->photos) {
             // 編集中の記事に紐付いた画像をすべて削除する(deleteとすることで複数削除)
             Photo::where('article_id', $article->id)->delete();
-        }
-        else {
+        } else {
             // もともと記事に紐付いていた複数の画像を取り出して変数$photoに格納
             foreach ($article->photos as $photo) {
                 // in_arrayで、取り出した画像が削除されているかどうかを判断する
@@ -148,25 +140,18 @@ class ArticleController extends Controller
         }
 
         if ($request->file('files')) {
-            foreach ($request->file('files') as $index=>$e) {
-                // $storage_key = $e['photo']->store('uploads', 'public');
-                $photo = $e['photo'];
-                $extension = $photo->getClientOriginalExtension();
-                $filename = $photo->getClientOriginalName();
-                $resize_photo = Image::make($photo)
-                    ->resize(800, null, function ($constraint) {$constraint->aspectRatio();})
-                    ->encode($extension);
-                Storage::disk('s3')->put('/' . $filename, (string) $resize_photo, 'public');
-                $filepath = Storage::disk('s3')->url($filename);
+            foreach ($request->file('files') as $index => $e) {
+                [$filename, $filepath] = $this->imageUploadRepo->upload(
+                    $e['photo'],
+                );
 
                 $article->photos()->create([
                     'name' => $filename,
                     'storage_key' => $filepath,
-                    ]);
+                ]);
             }
         }
 
-        
         $article->fill($request->all())->save();
 
         // タグの編集
@@ -195,7 +180,7 @@ class ArticleController extends Controller
     }
 
     public function like(Request $request, Article $article)
-    { 
+    {
         $article->likes()->detach($request->user()->id);
         $article->likes()->attach($request->user()->id);
 
@@ -214,5 +199,4 @@ class ArticleController extends Controller
             'countLikes' => $article->count_likes,
         ];
     }
-
 }
