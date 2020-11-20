@@ -14,6 +14,18 @@ class ImageUploadRepository
         $this->article = $article;
     }
 
+    /**
+     * ユーザーが選択した写真ファイルを、Intervention Imageを使って圧縮後に、s3にアップロードする。
+     * そのファイルパスとファイルネームを返す
+     *
+     * @access public
+     * @param object $photo
+     *   ユーザーがアップロードしたい写真ファイル1枚の情報
+     * @return string $filename
+     *   ユーザーがアップロードしたファイルの名前
+     * @return string $filepath
+     *   アップロードした画像が保存されているファイルパス
+     */
     public function upload($photo)
     {
         $extension = $photo->getClientOriginalExtension();
