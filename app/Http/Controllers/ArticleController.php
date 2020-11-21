@@ -6,7 +6,8 @@ use App\Article;
 use App\Http\Requests\ArticleRequest;
 use App\Photo;
 
-use App\Repositries\ImageUploadRepository;
+use App\Repositories\Article\ArticleRepository;
+use App\Repositories\Article\ImageUploadRepository;
 use App\Tag;
 // フォームリクエストの使用
 use Illuminate\Http\Request;
@@ -19,25 +20,41 @@ use Storage;
 class ArticleController extends Controller
 {
     private $imageUploadRepo;
-    public function __construct(ImageUploadRepository $imageUploadRepo)
-    {
+    private $getAllArticleRepo;
+    public function __construct(
+        ImageUploadRepository $imageUploadRepo,
+        ArticleRepository $getAllArticleRepo,
+        ArticleRepository $paginaterRepo
+    ) {
         $this->authorizeResource(Article::class, 'article');
         $this->imageUploadRepo = $imageUploadRepo;
+        $this->getAllArticleRepo = $getAllArticleRepo;
+        $this->paginaterRepo = $paginaterRepo;
     }
 
+    /**
+     * Travelog上に投稿されている記事を取得し、表示する
+     *
+     * @param \App\Http\Requests\ArticleRequest $request
+     * @return object $articlePaginate
+     */
     public function index(Request $request)
     {
-        $articles = Article::all()
-            ->sortByDesc('created_at')
-            ->load(['user', 'likes', 'tags', 'photos']);
+        // $articles = Article::all()
+        //     ->sortByDesc->sortByDesc('created_at')
+        //     ->load(['user', 'likes', 'tags', 'photos']);
 
-        $articlePaginate = new LengthAwarePaginator(
-            $articles->forPage($request->page, 5),
-            $articles->count(),
-            5,
-            null,
-            ['path' => $request->url()],
-        );
+        $articles = $this->getAllArticleRepo->getAllArticle();
+
+        // $articlePaginate = new LengthAwarePaginator(
+        //     $articles->forPage($request->page, 5),
+        //     $articles->count(),
+        //     5,
+        //     null,
+        //     ['path' => $request->url()],
+        // );
+
+        $articlePaginate = $this->paginaterRepo->paginate($request, $articles);
 
         return view('articles.index', ['articles' => $articlePaginate]);
     }
