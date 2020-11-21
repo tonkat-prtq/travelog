@@ -20,17 +20,15 @@ use Storage;
 class ArticleController extends Controller
 {
     private $imageUploadRepo;
-    private $getAllArticleRepo;
+    private $articleRepo;
 
     public function __construct(
         ImageUploadRepository $imageUploadRepo,
-        ArticleRepository $getAllArticleRepo,
-        ArticleRepository $paginaterRepo
+        ArticleRepository $articleRepo
     ) {
         $this->authorizeResource(Article::class, 'article');
         $this->imageUploadRepo = $imageUploadRepo;
-        $this->getAllArticleRepo = $getAllArticleRepo;
-        $this->paginaterRepo = $paginaterRepo;
+        $this->articleRepo = $articleRepo;
     }
 
     /**
@@ -48,8 +46,8 @@ class ArticleController extends Controller
      */
     public function index(Request $request)
     {
-        $articles = $this->getAllArticleRepo->getAllArticle();
-        $articlePaginate = $this->paginaterRepo->paginate($request, $articles);
+        $articles = $this->articleRepo->getAllArticle();
+        $articlePaginate = $this->articleRepo->paginate($request, $articles);
         return view('articles.index', ['articles' => $articlePaginate]);
     }
 
