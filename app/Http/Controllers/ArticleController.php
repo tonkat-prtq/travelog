@@ -21,6 +21,7 @@ class ArticleController extends Controller
 {
     private $imageUploadRepo;
     private $getAllArticleRepo;
+
     public function __construct(
         ImageUploadRepository $imageUploadRepo,
         ArticleRepository $getAllArticleRepo,
@@ -38,22 +39,10 @@ class ArticleController extends Controller
      * @param \App\Http\Requests\ArticleRequest $request
      * @return object $articlePaginate
      */
+
     public function index(Request $request)
     {
-        // $articles = Article::all()
-        //     ->sortByDesc->sortByDesc('created_at')
-        //     ->load(['user', 'likes', 'tags', 'photos']);
-
         $articles = $this->getAllArticleRepo->getAllArticle();
-
-        // $articlePaginate = new LengthAwarePaginator(
-        //     $articles->forPage($request->page, 5),
-        //     $articles->count(),
-        //     5,
-        //     null,
-        //     ['path' => $request->url()],
-        // );
-
         $articlePaginate = $this->paginaterRepo->paginate($request, $articles);
 
         return view('articles.index', ['articles' => $articlePaginate]);
@@ -61,6 +50,15 @@ class ArticleController extends Controller
 
     public function create()
     {
+        /**
+         * @var collection $allTagName
+         *
+         * Tagテーブルから全てのタグ情報を取得し、bladeに変数$allTagNamesとして渡す
+         * タグ自動補完に必要
+         *
+         * @todo 登録済みタグが増えてきたら、取得する数を絞る
+         */
+
         $allTagNames = Tag::all()->map(function ($tag) {
             return ['text' => $tag->name];
         });
