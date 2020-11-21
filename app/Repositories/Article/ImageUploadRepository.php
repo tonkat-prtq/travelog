@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositries;
+namespace App\Repositories\Article;
 
 use App\Article;
 use Illuminate\Support\Facades\Storage;
