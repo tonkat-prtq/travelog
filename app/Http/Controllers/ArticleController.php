@@ -37,28 +37,35 @@ class ArticleController extends Controller
      * Travelog上に投稿されている記事を取得し、表示する
      *
      * @param \App\Http\Requests\ArticleRequest $request
-     * @return object $articlePaginate
+     *
+     * @var collection $articles
+     *  Articlesテーブルに登録された全レコードがcreated_atの降順に入っている
+     * @var LengthAwarePaginator $articlePaginate
+     *  $articlesから5件ずつ取得
+     *
+     * @return Illuminate\View\View
+     *  @link /
      */
-
     public function index(Request $request)
     {
         $articles = $this->getAllArticleRepo->getAllArticle();
         $articlePaginate = $this->paginaterRepo->paginate($request, $articles);
-
         return view('articles.index', ['articles' => $articlePaginate]);
     }
 
+    /**
+     * 記事の新規作成ページ（フォーム）を表示する
+     *
+     * @var collection $allTagName
+     *  Tagテーブルから全てのタグ情報を取得し、bladeに変数$allTagNamesとして渡す
+     *  タグ自動補完に必要
+     *
+     * @return Illuminate\View\View
+     *  @link articles/create
+     * @todo 登録済みタグが増えてきたら、取得する数を絞る
+     */
     public function create()
     {
-        /**
-         * @var collection $allTagName
-         *
-         * Tagテーブルから全てのタグ情報を取得し、bladeに変数$allTagNamesとして渡す
-         * タグ自動補完に必要
-         *
-         * @todo 登録済みタグが増えてきたら、取得する数を絞る
-         */
-
         $allTagNames = Tag::all()->map(function ($tag) {
             return ['text' => $tag->name];
         });
@@ -70,11 +77,20 @@ class ArticleController extends Controller
 
     // $request, $articleの前のArticleRequestやArticleは引数の型宣言
     // それに加えDI(Dependency Injection)を行い、Articleクラスのインスタンスを自動生成し、メソッド内で使えるようにしている
+
+    /**
+     * Articleをデータベースに登録する
+     * 画像がアップロードされていたら画像も登録する
+     *
+     * @param \App\Http\Requests\ArticleRequest $request
+     * @param \App\Article $article
+     *
+     * @return Illuminate\Http\RedirectResponse
+     */
     public function store(ArticleRequest $request, Article $article)
     {
         $article->fill($request->all());
 
-        // dd($request, $request->file('files'));
         // 注意:ここの$request->user()はリレーションメソッドの呼び出しではなく、Requestクラスのインスタンス(ここでは$request)が持っているメソッドで、認証済みユーザーのインスタンスを返している
         $article->user_id = $request->user()->id;
 
@@ -107,8 +123,19 @@ class ArticleController extends Controller
     }
 
     /**
-     * Undocumented function
+     * 記事の編集
+     *
      * @param \App\Article $article
+     *
+     * @var object $tagNames
+     *  記事に紐付いているタグを格納
+     * @var object $allTagNames
+     *  登録されている全てのタグを取得し格納、自動補完に使う
+     * @var object $articlePhotos
+     *  記事に紐付いている画像を格納
+     *
+     * @return Illuminate\View\View
+     *  @link /articles/{article}/edit
      */
     public function edit(Article $article)
     {
@@ -130,12 +157,25 @@ class ArticleController extends Controller
         ]);
     }
 
+    /**
+     * 記事を更新し、データベースの値を書き換える処理
+     * 画像の削除・追加も可能となっている
+     *
+     * @param \App\Http\Requests\ArticleRequest $request
+     * @param \App\Article $article
+     *
+     * @var array $stored_photos
+     *  formのhidden_fieldに持たせてたstored_photo_idsを格納
+     *  もともと記事に紐付いていた画像で、削除をしないもののidが配列で入っている
+     * @var boolean $photo_delete_judge
+     *  もともと記事に紐付いていた画像が、削除されているかどうかを判断
+     *  @see $photo->id, $stored_photos
+     *
+     * @return Illuminate\Http\RedirectResponse
+     */
     public function update(ArticleRequest $request, Article $article)
     {
-        // 変数$stored_photosに、formのhidden_fieldに持たせてたstored_photo_idsを格納
-        // もともと記事に紐付いていた画像で、削除をしないもののidが配列で入っている
         $stored_photos = $request->stored_photo_ids;
-
         // 記事に紐付いていた画像があり、それをすべて削除した場合、$stored_photoには何も入らない。その時の処理を先にする
         // もし$stored_photosが空、かつ、元々の記事に紐付いていた画像があったなら
         if (empty($stored_photos) && $article->photos) {
@@ -146,6 +186,7 @@ class ArticleController extends Controller
             foreach ($article->photos as $photo) {
                 // in_arrayで、取り出した画像が削除されているかどうかを判断する
                 $photo_delete_judge = in_array($photo->id, $stored_photos);
+                dd(gettype($photo_delete_judge));
                 // もし上の結果が偽ならば、それは削除されているので
                 if (!$photo_delete_judge) {
                     // そのidの画像を削除する
@@ -183,17 +224,38 @@ class ArticleController extends Controller
         return redirect()->route('articles.index');
     }
 
+    /**
+     * 記事を削除する
+     * 記事が削除されると、紐付いていた画像も一緒に削除される
+     *
+     * @param \App\Article $article
+     * @return Illuminate\Http\RedirectResponse
+     */
     public function destroy(Article $article)
     {
         $article->delete();
         return redirect()->route('articles.index');
     }
 
+    /**
+     * 記事の詳細ページに遷移する
+     * @param \App\Article $article
+     * @return Illuminate\Http\RedirectResponse
+     */
     public function show(Article $article)
     {
         return view('articles.show', ['article' => $article]);
     }
 
+    /**
+     * 記事をいいねする
+     * 一度detachしてからattachすることで、二重登録を防止している
+     *
+     * @param \App\Http\Requests\ArticleRequest $request
+     * @param \App\Article $article
+     *
+     * @return array
+     */
     public function like(Request $request, Article $article)
     {
         $article->likes()->detach($request->user()->id);
@@ -205,6 +267,13 @@ class ArticleController extends Controller
         ];
     }
 
+    /**
+     * 記事のいいねを解除する
+     * @param \App\Http\Requests\ArticleRequest $request
+     * @param \App\Article $article
+     *
+     * @return array
+     */
     public function unlike(Request $request, Article $article)
     {
         $article->likes()->detach($request->user()->id);

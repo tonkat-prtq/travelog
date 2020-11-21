@@ -20,12 +20,18 @@ class ImageUploadRepository
      *
      * @access public
      * @param object $photo
-     *   ユーザーがアップロードしたい写真ファイル1枚の情報
+     *  ユーザーがアップロードしたい写真ファイル1枚の情報
      *
-     * @return string $filename
-     *   ユーザーがアップロードしたファイルの名前
-     * @return string $filepath
-     *   アップロードした画像が保存されているファイルパス
+     * @var string $extension
+     *  アップロードしたファイルの拡張子
+     * @var string $filename
+     *  ユーザーがアップロードしたファイルの名前
+     * @var string $filepath
+     *  アップロードした画像が保存されているファイルパス
+     *
+     * @return array
+     *  photosテーブルのnameカラムとstorage_keyカラムに保存するために必要な情報を返している
+     *  @see $filename, $filepath
      *
      * @see http://image.intervention.io/
      */
