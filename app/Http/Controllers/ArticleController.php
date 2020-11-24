@@ -100,10 +100,11 @@ class ArticleController extends Controller
                     $e['photo'],
                 );
 
-                $article->photos()->create([
-                    'name' => $filename,
-                    'storage_key' => $filepath,
-                ]);
+                $this->photoUploadRepo->createPhoto(
+                    $filename,
+                    $filepath,
+                    $article,
+                );
             }
         }
 
@@ -194,10 +195,11 @@ class ArticleController extends Controller
                     $e['photo'],
                 );
 
-                $article->photos()->create([
-                    'name' => $filename,
-                    'storage_key' => $filepath,
-                ]);
+                $this->photoUploadRepo->createPhoto(
+                    $filename,
+                    $filepath,
+                    $article,
+                );
             }
         }
 
