@@ -4,6 +4,8 @@ namespace App\Repositories\Article;
 
 use App\Article;
 use App\Http\Requests\ArticleRequest;
+use App\Tag;
+
 use Illuminate\Http\Request;
 
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -30,5 +32,14 @@ class ArticleRepository
         );
 
         return $articlePaginator;
+    }
+
+    public function getAllTagNames()
+    {
+        $allTagNames = Tag::all()->map(function ($tag) {
+            return ['text' => $tag->name];
+        });
+
+        return $allTagNames;
     }
 }

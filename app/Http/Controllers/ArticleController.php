@@ -54,7 +54,7 @@ class ArticleController extends Controller
     /**
      * 記事の新規作成ページ（フォーム）を表示する
      *
-     * @var collection $allTagName
+     * @var collection $allTagNames
      *  Tagテーブルから全てのタグ情報を取得し、bladeに変数$allTagNamesとして渡す
      *  タグ自動補完に必要
      *
@@ -64,9 +64,7 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        $allTagNames = Tag::all()->map(function ($tag) {
-            return ['text' => $tag->name];
-        });
+        $allTagNames = $this->articleRepo->getAllTagNames();
 
         return view('articles.create', [
             'allTagNames' => $allTagNames,
@@ -102,10 +100,10 @@ class ArticleController extends Controller
                     $e['photo'],
                 );
 
-                $article->photos()->create([
-                    'name' => $filename,
-                    'storage_key' => $filepath,
-                ]);
+                // $article->photos()->create([
+                //     'name' => $filename,
+                //     'storage_key' => $filepath,
+                // ]);
             }
         }
 
@@ -141,9 +139,7 @@ class ArticleController extends Controller
             return ['text' => $tag->name];
         });
 
-        $allTagNames = Tag::all()->map(function ($tag) {
-            return ['text' => $tag->name];
-        });
+        $allTagNames = $this->articleRepo->getAllTagNames();
 
         $articlePhotos = $article->photos;
 
