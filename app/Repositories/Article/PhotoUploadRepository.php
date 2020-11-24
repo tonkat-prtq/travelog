@@ -71,20 +71,4 @@ class PhotoUploadRepository
 
         return [$filename, $filepath];
     }
-
-    /**
-     * 画像をs3にアップロードしたあと、その画像の名前と保存先をデータベースに保存する処理
-     *
-     * @param string $filename
-     * @param string $filepath
-     * @param Article $article
-     * @see PhotoUploadRepository::upload
-     */
-    public function createPhoto($filename, $filepath, $article)
-    {
-        $article->photos()->create([
-            'name' => $filename,
-            'storage_key' => $filepath,
-        ]);
-    }
 }
