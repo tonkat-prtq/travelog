@@ -7,6 +7,7 @@ use App\Http\Requests\ArticleRequest;
 use App\Photo;
 
 use App\Repositories\Article\ArticleRepository;
+use App\Repositories\Article\PhotoRepository;
 use App\Repositories\Article\PhotoUploadRepository;
 use App\Tag;
 // フォームリクエストの使用
@@ -21,12 +22,15 @@ class ArticleController extends Controller
 {
     private $photoUploadRepo;
     private $articleRepo;
+    private $photoRepo;
 
     public function __construct(
+        PhotoRepository $photoRepo,
         PhotoUploadRepository $photoUploadRepo,
         ArticleRepository $articleRepo
     ) {
         $this->authorizeResource(Article::class, 'article');
+        $this->photoRepo = $photoRepo;
         $this->photoUploadRepo = $photoUploadRepo;
         $this->articleRepo = $articleRepo;
     }
@@ -100,11 +104,7 @@ class ArticleController extends Controller
                     $e['photo'],
                 );
 
-                $this->photoUploadRepo->createPhoto(
-                    $filename,
-                    $filepath,
-                    $article,
-                );
+                $this->photoRepo->store($filename, $filepath, $article);
             }
         }
 
@@ -195,11 +195,7 @@ class ArticleController extends Controller
                     $e['photo'],
                 );
 
-                $this->photoUploadRepo->createPhoto(
-                    $filename,
-                    $filepath,
-                    $article,
-                );
+                $this->photoRepo->store($filename, $filepath, $article);
             }
         }
 
