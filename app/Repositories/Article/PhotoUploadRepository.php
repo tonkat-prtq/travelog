@@ -3,10 +3,12 @@
 namespace App\Repositories\Article;
 
 use App\Article;
+use App\Photo;
+
 use Illuminate\Support\Facades\Storage;
 use Image;
 
-class ImageUploadRepository
+class PhotoUploadRepository
 {
     private $article;
     public function __construct(Article $article)
@@ -68,5 +70,13 @@ class ImageUploadRepository
         $filepath = Storage::disk('s3')->url($filename);
 
         return [$filename, $filepath];
+    }
+
+    public function create(string $filename, string $filepath)
+    {
+        $article->photos()->create([
+            'name' => $filename,
+            'storage_key' => $filepath,
+        ]);
     }
 }

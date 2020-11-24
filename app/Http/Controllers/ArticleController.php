@@ -7,7 +7,7 @@ use App\Http\Requests\ArticleRequest;
 use App\Photo;
 
 use App\Repositories\Article\ArticleRepository;
-use App\Repositories\Article\ImageUploadRepository;
+use App\Repositories\Article\PhotoUploadRepository;
 use App\Tag;
 // フォームリクエストの使用
 use Illuminate\Http\Request;
@@ -19,15 +19,15 @@ use Storage;
 
 class ArticleController extends Controller
 {
-    private $imageUploadRepo;
+    private $photoUploadRepo;
     private $articleRepo;
 
     public function __construct(
-        ImageUploadRepository $imageUploadRepo,
+        PhotoUploadRepository $photoUploadRepo,
         ArticleRepository $articleRepo
     ) {
         $this->authorizeResource(Article::class, 'article');
-        $this->imageUploadRepo = $imageUploadRepo;
+        $this->photoUploadRepo = $photoUploadRepo;
         $this->articleRepo = $articleRepo;
     }
 
@@ -96,14 +96,14 @@ class ArticleController extends Controller
         if ($request->file('files')) {
             foreach ($request->file('files') as $index => $e) {
                 // 配列をそのまま受け取って、それぞれの変数に格納するlist
-                [$filename, $filepath] = $this->imageUploadRepo->upload(
+                [$filename, $filepath] = $this->photoUploadRepo->upload(
                     $e['photo'],
                 );
 
-                // $article->photos()->create([
-                //     'name' => $filename,
-                //     'storage_key' => $filepath,
-                // ]);
+                $article->photos()->create([
+                    'name' => $filename,
+                    'storage_key' => $filepath,
+                ]);
             }
         }
 
@@ -180,7 +180,6 @@ class ArticleController extends Controller
             foreach ($article->photos as $photo) {
                 // in_arrayで、取り出した画像が削除されているかどうかを判断する
                 $photo_delete_judge = in_array($photo->id, $stored_photos);
-                dd(gettype($photo_delete_judge));
                 // もし上の結果が偽ならば、それは削除されているので
                 if (!$photo_delete_judge) {
                     // そのidの画像を削除する
@@ -191,7 +190,7 @@ class ArticleController extends Controller
 
         if ($request->file('files')) {
             foreach ($request->file('files') as $index => $e) {
-                [$filename, $filepath] = $this->imageUploadRepo->upload(
+                [$filename, $filepath] = $this->photoUploadRepo->upload(
                     $e['photo'],
                 );
 
