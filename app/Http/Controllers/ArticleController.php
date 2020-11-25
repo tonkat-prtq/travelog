@@ -8,7 +8,6 @@ use App\Photo;
 
 use App\Repositories\Article\ArticleRepository;
 use App\Repositories\Article\PhotoRepository;
-use App\Repositories\Article\PhotoUploadRepository;
 use App\Tag;
 // フォームリクエストの使用
 use Illuminate\Http\Request;
@@ -20,18 +19,15 @@ use Storage;
 
 class ArticleController extends Controller
 {
-    private $photoUploadRepo;
     private $articleRepo;
     private $photoRepo;
 
     public function __construct(
         PhotoRepository $photoRepo,
-        PhotoUploadRepository $photoUploadRepo,
         ArticleRepository $articleRepo
     ) {
         $this->authorizeResource(Article::class, 'article');
         $this->photoRepo = $photoRepo;
-        $this->photoUploadRepo = $photoUploadRepo;
         $this->articleRepo = $articleRepo;
     }
 
@@ -100,9 +96,7 @@ class ArticleController extends Controller
         if ($request->file('files')) {
             foreach ($request->file('files') as $index => $e) {
                 // 配列をそのまま受け取って、それぞれの変数に格納するlist
-                [$filename, $filepath] = $this->photoUploadRepo->upload(
-                    $e['photo'],
-                );
+                [$filename, $filepath] = $this->photoRepo->upload($e['photo']);
 
                 $this->photoRepo->store($filename, $filepath, $article);
             }
@@ -191,9 +185,7 @@ class ArticleController extends Controller
 
         if ($request->file('files')) {
             foreach ($request->file('files') as $index => $e) {
-                [$filename, $filepath] = $this->photoUploadRepo->upload(
-                    $e['photo'],
-                );
+                [$filename, $filepath] = $this->photoRepo->upload($e['photo']);
 
                 $this->photoRepo->store($filename, $filepath, $article);
             }
