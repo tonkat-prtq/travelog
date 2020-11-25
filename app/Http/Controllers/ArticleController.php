@@ -7,7 +7,7 @@ use App\Http\Requests\ArticleRequest;
 use App\Photo;
 
 use App\Repositories\Article\ArticleRepository;
-use App\Repositories\Article\ImageUploadRepository;
+use App\Repositories\Article\PhotoRepository;
 use App\Tag;
 // フォームリクエストの使用
 use Illuminate\Http\Request;
@@ -19,15 +19,15 @@ use Storage;
 
 class ArticleController extends Controller
 {
-    private $imageUploadRepo;
     private $articleRepo;
+    private $photoRepo;
 
     public function __construct(
-        ImageUploadRepository $imageUploadRepo,
+        PhotoRepository $photoRepo,
         ArticleRepository $articleRepo
     ) {
         $this->authorizeResource(Article::class, 'article');
-        $this->imageUploadRepo = $imageUploadRepo;
+        $this->photoRepo = $photoRepo;
         $this->articleRepo = $articleRepo;
     }
 
@@ -54,7 +54,7 @@ class ArticleController extends Controller
     /**
      * 記事の新規作成ページ（フォーム）を表示する
      *
-     * @var collection $allTagName
+     * @var collection $allTagNames
      *  Tagテーブルから全てのタグ情報を取得し、bladeに変数$allTagNamesとして渡す
      *  タグ自動補完に必要
      *
@@ -64,9 +64,7 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        $allTagNames = Tag::all()->map(function ($tag) {
-            return ['text' => $tag->name];
-        });
+        $allTagNames = $this->articleRepo->getAllTagNames();
 
         return view('articles.create', [
             'allTagNames' => $allTagNames,
@@ -98,14 +96,9 @@ class ArticleController extends Controller
         if ($request->file('files')) {
             foreach ($request->file('files') as $index => $e) {
                 // 配列をそのまま受け取って、それぞれの変数に格納するlist
-                [$filename, $filepath] = $this->imageUploadRepo->upload(
-                    $e['photo'],
-                );
+                [$filename, $filepath] = $this->photoRepo->upload($e['photo']);
 
-                $article->photos()->create([
-                    'name' => $filename,
-                    'storage_key' => $filepath,
-                ]);
+                $this->photoRepo->store($filename, $filepath, $article);
             }
         }
 
@@ -141,9 +134,7 @@ class ArticleController extends Controller
             return ['text' => $tag->name];
         });
 
-        $allTagNames = Tag::all()->map(function ($tag) {
-            return ['text' => $tag->name];
-        });
+        $allTagNames = $this->articleRepo->getAllTagNames();
 
         $articlePhotos = $article->photos;
 
@@ -184,7 +175,6 @@ class ArticleController extends Controller
             foreach ($article->photos as $photo) {
                 // in_arrayで、取り出した画像が削除されているかどうかを判断する
                 $photo_delete_judge = in_array($photo->id, $stored_photos);
-                dd(gettype($photo_delete_judge));
                 // もし上の結果が偽ならば、それは削除されているので
                 if (!$photo_delete_judge) {
                     // そのidの画像を削除する
@@ -195,14 +185,9 @@ class ArticleController extends Controller
 
         if ($request->file('files')) {
             foreach ($request->file('files') as $index => $e) {
-                [$filename, $filepath] = $this->imageUploadRepo->upload(
-                    $e['photo'],
-                );
+                [$filename, $filepath] = $this->photoRepo->upload($e['photo']);
 
-                $article->photos()->create([
-                    'name' => $filename,
-                    'storage_key' => $filepath,
-                ]);
+                $this->photoRepo->store($filename, $filepath, $article);
             }
         }
 
