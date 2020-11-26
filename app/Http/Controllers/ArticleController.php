@@ -65,7 +65,6 @@ class ArticleController extends Controller
     public function create()
     {
         $allTagNames = $this->articleRepo->getAllTagNames();
-
         return view('articles.create', [
             'allTagNames' => $allTagNames,
         ]);
