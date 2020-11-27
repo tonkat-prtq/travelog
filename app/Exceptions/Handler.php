@@ -21,10 +21,7 @@ class Handler extends ExceptionHandler
      *
      * @var array
      */
-    protected $dontFlash = [
-        'password',
-        'password_confirmation',
-    ];
+    protected $dontFlash = ['password', 'password_confirmation'];
 
     /**
      * Report or log an exception.
@@ -46,6 +43,10 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($exception instanceof PostTooLargeException) {
+            return response()->view('errors.post_too_large', [], 422);
+        }
+
         return parent::render($request, $exception);
     }
 }

@@ -10,6 +10,7 @@ use App\Repositories\Article\ArticleRepository;
 use App\Repositories\Article\PhotoRepository;
 use App\Tag;
 // フォームリクエストの使用
+use Illuminate\Http\Exceptions\PostTooLargeException;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
@@ -65,6 +66,7 @@ class ArticleController extends Controller
     public function create()
     {
         $allTagNames = $this->articleRepo->getAllTagNames();
+        throw new PostTooLargeException('ファイルサイズが大きすぎます');
         return view('articles.create', [
             'allTagNames' => $allTagNames,
         ]);
