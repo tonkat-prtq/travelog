@@ -1,4 +1,4 @@
-test@extends('errors.layouts.base')
+@extends('errors.layouts.base')
 
 @section('title', 'Filesize Over')
 
