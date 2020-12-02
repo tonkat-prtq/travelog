@@ -13,10 +13,10 @@ $factory->define(Article::class, function (Faker $faker) {
     return [
         'title' => $faker->text(50),
         'content' => $faker->text(500),
-        'start_date' => Carbon::now(),
+        'start_date' => Carbon::today(),
         'end_date' => Carbon::today('+1 day'),
-        'user_id' => function() {
+        'user_id' => function () {
             return factory(User::class);
-        }
+        },
     ];
 });
