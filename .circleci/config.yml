@@ -46,6 +46,11 @@ jobs:
             sudo docker-php-ext-install pdo_pgsql
             dockerize -wait tcp://localhost:5432 -timeout 1m
       - run:
+          name: DB Migration
+          command: |
+            php artisan migrate
+            php artisan db:seed
+      - run:
           name: php test
           command: vendor/bin/phpunit
   deploy:
