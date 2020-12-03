@@ -48,7 +48,7 @@ jobs:
       - run:
           name: DB Migration
           command: |
-            php artisan migrate
+            php artisan migrate --force
             php artisan db:seed
       - run:
           name: php test
