@@ -14,9 +14,14 @@ class ArticleRepository
 {
     public function getAllArticle()
     {
-        $articles = Article::all()
-            ->sortByDesc('created_at')
-            ->load(['user', 'likes', 'tags', 'photos']);
+        // $articles = Article::all()
+        //     ->sortByDesc('created_at')
+        //     ->load(['user', 'likes', 'tags', 'photos']);
+
+        $articles = Article::query()
+            ->with(['user', 'likes', 'tags', 'photos'])
+            ->orderBy('created_at', 'desc')
+            ->get();
 
         return $articles;
     }
