@@ -33,4 +33,22 @@
   <p class="mt-3 h4 font-weight-light text-nice-white-color">写真と一緒に、旅の思い出を記録しよう</p>
 </div>
 
+<div class="container-2 pb-3 pt-3">
+  <p class="font-weight-light h4 text-black mb-2">
+    編集時、画像のサムネイルを表示＋削除ボタンの実装
+  </p>
+  <picture class="carousel-gif img-fluid">
+    <source media="(min-width:768px)" srcset="{{ asset('images/lp-edit-images-lg-only.gif') }}" class="img-fluid">
+    <img src="{{ asset('images/lp-edit-images-lg-only.gif') }}" class="img-fluid">
+  </picture>
+</div>
+
+<div class="container-3 pb-3 pt-4 bg-second-color">
+    <ul class="font-weight-light list-unstyled h4 text-nice-white-color">
+      <li>レスポンシブ対応</li>
+      <li class="mt-2">AWS Certificate Maneger + Route 53 + EC2ロードバランサーで、HTTPS化</li>
+      <li class="mt-2">Googleログイン実装</li>
+    </ul>
+</div>
+
 <!-- /.container -->
