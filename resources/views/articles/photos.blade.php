@@ -20,17 +20,19 @@
       </div>
     @endforeach
   </div>
-  <a class="carousel-control-prev" href="#carousel-{{ $article->id }}" role="button" data-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true">
-      <i class="fas fa-chevron-left text-black-50 fa-3x"></i>
-    </span>
-    <span class="sr-only">Previous</span>
-  </a>
-  <a class="carousel-control-next" href="#carousel-{{ $article->id }}" role="button" data-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true">
-      <i class="fas fa-chevron-right text-black-50 fa-3x"></i>
-    </span>
-    <span class="sr-only">Next</span>
-  </a>
+  @if(count($article->photos) !== 1)
+    <a class="carousel-control-prev" href="#carousel-{{ $article->id }}" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true">
+        <i class="fas fa-chevron-left text-black-50 fa-3x"></i>
+      </span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carousel-{{ $article->id }}" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true">
+        <i class="fas fa-chevron-right text-black-50 fa-3x"></i>
+      </span>
+      <span class="sr-only">Next</span>
+    </a>
+  @endif
 </div> 
 <!--/.Carousel Wrapper-->
