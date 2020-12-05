@@ -5,181 +5,177 @@
 @import 'bootstrap/bootstrap.scss';
 
 // form関係
-.form-control, .ti-input, label.custom-file-label, input.form-inline {
-  border: 1px solid $third-color;
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-  &:focus{
-    border-color: $third-color;
-    outline: 0;
-    box-shadow: 0 0 0 0.2rem rgba(32, 133, 12, 0.234);
-  }
+.form-control,
+.ti-input,
+label.custom-file-label,
+input.form-inline {
+    border: 1px solid $third-color;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    &:focus {
+        border-color: $third-color;
+        outline: 0;
+        box-shadow: 0 0 0 0.2rem rgba(32, 133, 12, 0.234);
+    }
 }
 
 // ファイル選択（写真アップロード）フォーム
-.custom-file-input:focus~.custom-file-label {
-  border-color: $third-color;
-  outline: 0;
-  box-shadow: 0 0 0 0.2rem rgba(32, 133, 12, 0.234);
+.custom-file-input:focus ~ .custom-file-label {
+    border-color: $third-color;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(32, 133, 12, 0.234);
 }
 
 // カードデザイン）
 .card {
-  box-shadow: 3px 3px 9px -2px rgb(119, 119, 119),
-  3px 3px 8px rgba(255,255,255,0.8) inset;
+    box-shadow: 3px 3px 9px -2px rgb(119, 119, 119),
+        3px 3px 8px rgba(255, 255, 255, 0.8) inset;
 }
 
 // カードヘッダーの背景色と線をなくす
 .card-header {
-  background-color: white;
-  border: none;
+    background-color: white;
+    border: none;
 }
 
 // ユーザーの名前の文字列のスタイル
-.card-header-user a{
-  color: #131313;
-  letter-spacing: 0.1rem;
-  font-weight: bold;
+.card-header-user a {
+    color: #131313;
+    letter-spacing: 0.1rem;
+    font-weight: bold;
 }
 
 // カルーセルの画像の大きさや幅を指定
 .carousel-item img {
-  width: 100%;
-  height: 600px;
-  object-fit: contain;
+    width: 100%;
+    height: 600px;
+    object-fit: contain;
 }
 
 // カルーセルのデフォルトで使われているアイコンを非表示にする
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
-  background-image: none;
+    background-image: none;
 }
 
 // カルーセルの画像内のインディケーターの色を変更
-.carousel-indicators li{
-  background-color: $first-color;
+.carousel-indicators li {
+    background-color: $first-color;
 }
 
 .article-title {
-  font-family: 'M PLUS Rounded 1c', sans-serif;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
 }
 
 // placeholderの色がデフォルトでは濃すぎるので調整
-.form-control::placeholder{
-  color: #cccaca;
+.form-control::placeholder {
+    color: #cccaca;
 }
 
 // ログイン画面のbutton
 button {
-  border: $first-color;
+    border: $first-color;
 }
 
 // ユーザーマイページの記事といいねタブ
 a.nav-link.text-muted.active {
-  background-color: lighten($second-color, 30%);
+    background-color: lighten($second-color, 30%);
 }
 
 // navbarのドロップダウン
 button.dropdown-item.logout-button:active {
-  background-color: red;
+    background-color: red;
 }
 
 button.dropdown-item.text-decoration-none.mypage-button:active {
-  background-color: $second-color;
+    background-color: $second-color;
 }
 
 // 上に戻るボタン
 .container .index {
-  position: relative;
+    position: relative;
 }
 
-.pagetop{
-  position:fixed;
-  bottom:5px;
-  right:5px;
+.pagetop {
+    position: fixed;
+    bottom: 5px;
+    right: 5px;
 }
 
 // ページネーション
-.page-item.active .page-link{
-  background-color: $second-color;
-  border-color: $second-color;
+.page-item.active .page-link {
+    background-color: $second-color;
+    border-color: $second-color;
 }
 
 a.page-link {
-  color: #1f1f1f
+    color: #1f1f1f;
 }
 
 // ランディング
 
 .jumbotron {
-  font-family: 'M PLUS Rounded 1c', sans-serif;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
 }
 
 .display-4 {
-  font-size: 4.5rem;
-  line-height: 1.2;
-  letter-spacing: 0.7rem;
-  font-weight: lighter;
+    font-size: 4.5rem;
+    line-height: 1.2;
+    letter-spacing: 0.7rem;
+    font-weight: lighter;
 }
 
 // 画像の中央寄せのため
-.container-1 {
-  text-align: center;
-  font-family: 'M PLUS Rounded 1c', sans-serif;
-}
-
-.photo-container {
-  background-image: url("https://travelog-photoupload-tokyo-k2t.s3-ap-northeast-1.amazonaws.com/P1035686-HDR.jpg");
-  background-size: cover;
-  background-position: center 60%;
-  height: 100%;
+.container-1,
+.container-2,
+.container-3 {
+    text-align: center;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
 }
 
 // 768px以上の画面サイズで適用されるスタイル（タブレット〜PC）
 @media (min-width: 768px) {
+    // 旅行の日付
+    .travel-date {
+        font-family: 'M PLUS Rounded 1c', sans-serif;
+        font-weight: bold;
+        font-size: 1.2rem;
+        margin-left: 3rem;
+    }
 
-  // 旅行の日付
-  .travel-date {
-    font-family: 'M PLUS Rounded 1c', sans-serif;
-    font-weight: bold;
-    font-size: 1.2rem;
-    margin-left: 3rem;
-  }
+    // ナビゲーションバーのアプリタイトルを少し中央に寄せる
+    .navbar-brand {
+        padding-left: 6rem;
+    }
 
-  // ナビゲーションバーのアプリタイトルを少し中央に寄せる
-  .navbar-brand {
-    padding-left: 6rem;
-  }
-
-  // ナビゲーションバーの検索フォームを少し中央に寄せる
-  .navbar-nav form {
-    margin-right: 4rem;
-  }
+    // ナビゲーションバーの検索フォームを少し中央に寄せる
+    .navbar-nav form {
+        margin-right: 4rem;
+    }
 }
 
 // 768pxより下の画面サイズで適用されるスタイル（タブレット以下）
 @media (max-width: 767.98px) {
+    // カルーセルの画像のサイズを小さめにする
+    .carousel-item img {
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+    }
 
-  // カルーセルの画像のサイズを小さめにする
-  .carousel-item img {
-    width: 100%;
-    height: 300px;
-    object-fit: cover;
-  }
+    // 旅行の日付はタイトルの下に配置する
+    .travel-date {
+        display: block;
+        font-family: 'M PLUS Rounded 1c', sans-serif;
+        font-weight: bold;
+        font-size: 1rem;
+        margin-top: 0.6rem;
+    }
 
-  // 旅行の日付はタイトルの下に配置する
-  .travel-date {
-    display: block;
-    font-family: 'M PLUS Rounded 1c', sans-serif;
-    font-weight: bold;
-    font-size: 1rem;
-    margin-top: 0.6rem;
-  }
-
-  // ランディングのジャンボトロンのアプリ名
-  .display-4 {
-    font-size: 2.5rem;
-    line-height: 1.1;
-    letter-spacing: 0.4rem;
-    font-weight: lighter;
-  }
+    // ランディングのジャンボトロンのアプリ名
+    .display-4 {
+        font-size: 2.5rem;
+        line-height: 1.1;
+        letter-spacing: 0.4rem;
+        font-weight: lighter;
+    }
 }
