@@ -118,11 +118,11 @@ class ArticleController extends Controller
      *
      * @param \App\Article $article
      *
-     * @var object $tagNames
+     * @var collection $tagNames
      *  記事に紐付いているタグを格納
-     * @var object $allTagNames
+     * @var collection $allTagNames
      *  登録されている全てのタグを取得し格納、自動補完に使う
-     * @var object $articlePhotos
+     * @var collection $articlePhotos
      *  記事に紐付いている画像を格納
      *
      * @return Illuminate\View\View
@@ -137,6 +137,8 @@ class ArticleController extends Controller
         $allTagNames = $this->articleRepo->getAllTagNames();
 
         $articlePhotos = $article->photos;
+
+        dd($tagNames, $allTagNames, $articlePhotos);
 
         return view('articles.edit', [
             'article' => $article,
