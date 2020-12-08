@@ -16,7 +16,7 @@ class SearchController extends Controller
      * @param \Illuminate\Http\Request $request
      * @var string $keyword
      *
-     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
+     * @return \Illuminate\View\View
      */
     public function search(Request $request)
     {
@@ -43,7 +43,7 @@ class SearchController extends Controller
      * 検索した結果、1件でもあればその結果を表示し、なければrootページ(Article#index)にリダイレクトする
      *
      * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory | \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
+     * @return \Illuminate\View\View|\Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
      */
     public function index(Request $request)
     {
