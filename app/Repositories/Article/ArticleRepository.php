@@ -15,6 +15,7 @@ class ArticleRepository
     /**
      * 投稿されたArticle全件と、それに紐付いているuser, likes, tags, photosを取得し
      * Articleのcreated_atの降順で並び替えたものを返す
+     *
      * @return collection $articles
      */
     public function getAllArticle()
@@ -29,6 +30,7 @@ class ArticleRepository
 
     /**
      * Article全件を取得し、それを5件ずつページネーションさせる
+     *
      * @param \App\Http\Requests\ArticleRequest $request
      * @param collection $articles
      *
@@ -50,6 +52,7 @@ class ArticleRepository
     /**
      * データベースに登録されているTagのnameを全件取得し返す
      * 入力候補の表示に必要
+     *
      * @return collection $allTagNames
      */
     public function getAllTagNames()
