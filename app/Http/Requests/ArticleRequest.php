@@ -33,8 +33,7 @@ class ArticleRequest extends FormRequest
             'end_date' => 'required|after_or_equal:start_date',
 
             // 画像ファイル
-            'files.*.photo' => 'bail|image|mimes:jpeg,bmp,png',
-
+            'files.*.photo' => 'bail|image|mimes:jpeg,bmp,png|max:2000',
 
             'stored_photo_ids',
 
@@ -52,7 +51,7 @@ class ArticleRequest extends FormRequest
             'start_date' => '開始日',
             'end_date' => '終了日',
             'tag' => 'タグ',
-            'files.*.photo' => 'アップロードするファイル'
+            'files.*.photo' => 'ファイル',
         ];
     }
 
@@ -62,6 +61,8 @@ class ArticleRequest extends FormRequest
         return [
             // attribute名 . 引っかかったバリデーションルール => 出したいメッセージ
             'end_date.after_or_equal' => '開始日または終了日を確認してください',
+            'files.*.photo.max:200' =>
+                'ファイルサイズが大きすぎます（2MBまで）',
         ];
     }
 
