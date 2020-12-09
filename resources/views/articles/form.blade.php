@@ -29,7 +29,7 @@
   </div>
 </div>
 <div class="form-group">
-  画像ファイル（複数可, 1ファイル2MBまで)
+  画像ファイル（複数可, 1ファイル3MBまで)
   <div class="custom-file">
     <input type="file" class="custom-file-input" id="inputFile" name="files[][photo]" multiple>
     <label class="custom-file-label" for="inputFile">ファイルを選択 ( jpg, png, bmp )</label>
