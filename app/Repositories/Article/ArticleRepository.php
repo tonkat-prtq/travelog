@@ -12,12 +12,14 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class ArticleRepository
 {
+    /**
+     * 投稿されたArticle全件と、それに紐付いているuser, likes, tags, photosを取得し
+     * Articleのcreated_atの降順で並び替えたものを返す
+     *
+     * @return collection $articles
+     */
     public function getAllArticle()
     {
-        // $articles = Article::all()
-        //     ->sortByDesc('created_at')
-        //     ->load(['user', 'likes', 'tags', 'photos']);
-
         $articles = Article::query()
             ->with(['user', 'likes', 'tags', 'photos'])
             ->orderBy('created_at', 'desc')
@@ -26,6 +28,14 @@ class ArticleRepository
         return $articles;
     }
 
+    /**
+     * Article全件を取得し、それを5件ずつページネーションさせる
+     *
+     * @param \App\Http\Requests\ArticleRequest $request
+     * @param collection $articles
+     *
+     * @return Illuminate\Pagination\LengthAwarePaginator $articlePaginator
+     */
     public function paginate(Request $request, object $articles)
     {
         $articlePaginator = new LengthAwarePaginator(
@@ -39,6 +49,12 @@ class ArticleRepository
         return $articlePaginator;
     }
 
+    /**
+     * データベースに登録されているTagのnameを全件取得し返す
+     * 入力候補の表示に必要
+     *
+     * @return collection $allTagNames
+     */
     public function getAllTagNames()
     {
         $allTagNames = Tag::all()->map(function ($tag) {
