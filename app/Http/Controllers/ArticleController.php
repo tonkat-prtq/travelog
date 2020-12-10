@@ -138,8 +138,6 @@ class ArticleController extends Controller
 
         $articlePhotos = $article->photos;
 
-        dd($tagNames, $allTagNames, $articlePhotos);
-
         return view('articles.edit', [
             'article' => $article,
             'tagNames' => $tagNames,
