@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "74f2af890e48a6e465f9baaa1966090d",
+    "content-hash": "2ef6a3598f18c62f999705c67e38e486",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -861,16 +861,16 @@
         },
         {
             "name": "laravel/socialite",
-            "version": "v5.0.3",
+            "version": "v5.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/socialite.git",
-                "reference": "8197acf2fe5446a2800b95d250c1da72fd6051bc"
+                "reference": "19fc65ac28e0b4684a8735b14c1dc6f6ef5d62c7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/socialite/zipball/8197acf2fe5446a2800b95d250c1da72fd6051bc",
-                "reference": "8197acf2fe5446a2800b95d250c1da72fd6051bc",
+                "url": "https://api.github.com/repos/laravel/socialite/zipball/19fc65ac28e0b4684a8735b14c1dc6f6ef5d62c7",
+                "reference": "19fc65ac28e0b4684a8735b14c1dc6f6ef5d62c7",
                 "shasum": ""
             },
             "require": {
@@ -879,13 +879,13 @@
                 "illuminate/http": "^6.0|^7.0|^8.0",
                 "illuminate/support": "^6.0|^7.0|^8.0",
                 "league/oauth1-client": "^1.0",
-                "php": "^7.2"
+                "php": "^7.2|^8.0"
             },
             "require-dev": {
                 "illuminate/contracts": "^6.0|^7.0",
                 "mockery/mockery": "^1.0",
                 "orchestra/testbench": "^4.0|^5.0|^6.0",
-                "phpunit/phpunit": "^8.0"
+                "phpunit/phpunit": "^8.0|^9.3"
             },
             "type": "library",
             "extra": {
@@ -922,7 +922,11 @@
                 "laravel",
                 "oauth"
             ],
-            "time": "2020-10-21T12:45:02+00:00"
+            "support": {
+                "issues": "https://github.com/laravel/socialite/issues",
+                "source": "https://github.com/laravel/socialite"
+            },
+            "time": "2020-12-04T15:30:50+00:00"
         },
         {
             "name": "laravel/tinker",
