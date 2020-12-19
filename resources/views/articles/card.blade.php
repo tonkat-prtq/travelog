@@ -77,8 +77,8 @@
         {{ $article->title }}
       </a>
       <span class="travel-date">{{ $article->start_date->format('Y-m-d') }}
-      @if ($article->end_date !== $article->start_date)
-        - {{ $article->end_date->format('Y-m-d') }}
+      @if ($article->end_date->format('Y-m-d') !== $article->start_date->format('Y-m-d'))
+        ~ {{ $article->end_date->format('Y-m-d') }}
       @endif
       </span>
     </h4>
