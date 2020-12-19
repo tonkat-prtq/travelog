@@ -16,7 +16,7 @@
     開始日
     </div>
     <div class="md-form">
-      <input type="date" name="start_date" class="form-control" required value="{{ $article->start_date ?? old('start_date') }}">
+      <input type="date" name="start_date" class="form-control" required value="{{ $article->start_date ? $article->start_date->format('Y-m-d') : old('start_date') }}">
     </div>
   </div>
   <div class="col">
@@ -24,7 +24,7 @@
     終了日
     </div>
     <div class="md-form">
-      <input type="date" name="end_date" class="form-control" required value="{{ $article->end_date ?? old('end_date') }}">
+      <input type="date" name="end_date" class="form-control" required value="{{ $article->end_date ? $article->end_date->format('Y-m-d') : old('end_date') }}">
     </div>
   </div>
 </div>
