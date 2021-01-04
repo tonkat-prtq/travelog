@@ -7,7 +7,7 @@
 @section('content')
 <div class="jumbotron jumbotron-fluid bg-white">
   <div class="container">
-    <h1 class="display-4"><i class="fas fa-camera-retro mr-1"></i>Travelog</h1>
+    <h1 class="display-4"><a href="/" class="text-decoration-none text-muted"><i class="fas fa-camera-retro mr-1"></i>Travelog</a></h1>
     <p class="lead">旅の記録を、写真で振り返る。</p>
   </div>
 
