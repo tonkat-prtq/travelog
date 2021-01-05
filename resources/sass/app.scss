@@ -90,6 +90,11 @@ button.dropdown-item.text-decoration-none.mypage-button:active {
     background-color: $second-color;
 }
 
+// navbarのロゴリンクのフォント
+.navbar-brand {
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+}
+
 // 上に戻るボタン
 .container .index {
     position: relative;
