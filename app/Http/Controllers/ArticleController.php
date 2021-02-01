@@ -180,6 +180,7 @@ class ArticleController extends Controller
                 // もし上の結果が偽ならば、それは削除されているので
                 if (!$photo_delete_judge) {
                     // そのidの画像を削除する
+                    Storage::disk('s3')->delete('/', $photo->name);
                     Photo::destroy($photo->id);
                 }
             }
