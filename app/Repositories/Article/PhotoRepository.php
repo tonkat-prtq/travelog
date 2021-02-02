@@ -40,7 +40,13 @@ class PhotoRepository
     public function upload($photo)
     {
         $extension = $photo->getClientOriginalExtension();
-        $filename = $photo->getClientOriginalName();
+
+        // filenameをランダムで生成し、ユニークなものにする
+        $filename = substr(
+            base_convert(hash('sha256', uniqid()), 16, 36),
+            0,
+            24,
+        );
 
         /**
          * Intervention Imageを使ってリサイズしている
