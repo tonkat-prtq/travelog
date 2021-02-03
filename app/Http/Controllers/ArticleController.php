@@ -222,6 +222,9 @@ class ArticleController extends Controller
      */
     public function destroy(Article $article)
     {
+        foreach ($article->photos as $photo) {
+            Storage::disk('s3')->delete('/', $photo->name);
+        }
         $article->delete();
         return redirect()->route('articles.index');
     }
