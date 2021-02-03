@@ -42,11 +42,16 @@ class PhotoRepository
         $extension = $photo->getClientOriginalExtension();
 
         // filenameをランダムで生成し、ユニークなものにする
-        $filename = substr(
+        $random_str = substr(
             base_convert(hash('sha256', uniqid()), 16, 36),
             0,
             24,
         );
+        // 2021年2月3日 21時56分29秒に投稿した場合、timestampには20210203215629が格納される
+        $timestamp = date('YmdHis');
+
+        // timestampとランダムな文字列をあわせることでユニークなファイル名を作成する
+        $filename = $timestamp . $random_str;
 
         /**
          * Intervention Imageを使ってリサイズしている
