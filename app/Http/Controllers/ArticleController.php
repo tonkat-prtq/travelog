@@ -172,9 +172,7 @@ class ArticleController extends Controller
         if (empty($stored_photos) && $article->photos) {
             // 編集中の記事に紐付いた画像をすべて削除する(deleteとすることで複数削除)
             Photo::where('article_id', $article->id)->delete();
-            foreach ($article->photos as $photo) {
-                Storage::disk('s3')->delete('/', $photo->name);
-            }
+            $this->photoRepo->delete($article);
         } else {
             // もともと記事に紐付いていた複数の画像を取り出して変数$photoに格納
             foreach ($article->photos as $photo) {
@@ -222,9 +220,7 @@ class ArticleController extends Controller
      */
     public function destroy(Article $article)
     {
-        foreach ($article->photos as $photo) {
-            Storage::disk('s3')->delete('/', $photo->name);
-        }
+        $this->photoRepo->delete($article);
         $article->delete();
         return redirect()->route('articles.index');
     }
