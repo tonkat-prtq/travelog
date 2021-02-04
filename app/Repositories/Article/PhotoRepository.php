@@ -98,4 +98,15 @@ class PhotoRepository
             'storage_key' => $filepath,
         ]);
     }
+
+    /**
+     * S3にアップロードした画像を削除する
+     * @param Article $article
+     */
+    public function delete($article)
+    {
+        foreach ($article->photos as $photo) {
+            Storage::disk('s3')->delete('/', $photo->name);
+        }
+    }
 }
